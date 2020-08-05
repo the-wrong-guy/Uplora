@@ -1,0 +1,9 @@
+.container{
+    display: flex;
+    justify-content: center;
+}
+
+.header{
+    color: #000000;
+    font-size: 30px;
+}

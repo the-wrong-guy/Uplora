@@ -1,0 +1,29 @@
+.container{
+    width: 350px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    /* margin-top: 70px; */
+}
+
+.post_header{
+    display: flex !important;
+    align-items: center !important;
+    padding: 10px 20px;
+    margin-top: 5px;
+}
+
+.userName{
+    padding: 0 15px;
+}
+
+.post_img{
+    width: 100%;
+    /* object-fit: contain; */
+    /* height: 500px; */
+}
+
+.post_footer{
+    display: flex;
+    align-items: center;
+    padding: 5px;
+}
