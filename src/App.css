@@ -3,5 +3,10 @@
   padding: 0;
 }
 
+.app_signUp{
+  display: flex !important;
+  /* flex-direction: column; */
+  /* justify-content: center; */
+}
 
 

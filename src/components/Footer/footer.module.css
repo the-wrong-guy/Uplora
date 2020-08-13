@@ -1,0 +1,26 @@
+.fabButton {
+    position: absolute;
+    z-index: 1;
+    top: -10px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    /* transition: top background 2s linear; */
+    background: linear-gradient(90deg, hsl(188,93%,68%),hsl(233,93%,68%),hsl(278,93%,68%),hsl(323,93%,68%),hsl(8,93%,68%),hsl(53,93%,68%),hsl(98,93%,68%),hsl(143,93%,68%));
+
+  }
+
+.fabButton:hover{
+    /* transform: translateY(-30px); */
+    /* top: -10px; */
+    /* background: linear-gradient(90deg, hsl(188,93%,68%),hsl(233,93%,68%),hsl(278,93%,68%),hsl(323,93%,68%),hsl(8,93%,68%),hsl(53,93%,68%),hsl(98,93%,68%),hsl(143,93%,68%)); */
+}
+.fabButton:focus{
+    /* top: -10px; */
+    /* background: linear-gradient(90deg, hsl(188,93%,68%),hsl(233,93%,68%),hsl(278,93%,68%),hsl(323,93%,68%),hsl(8,93%,68%),hsl(53,93%,68%),rgb(10, 17, 6),hsl(143,93%,68%)); */
+}
+
+.appBar{
+    top: auto;
+    bottom: 0;
+  }
