@@ -1,13 +1,23 @@
 import React,{useState,useEffect} from 'react'
-import {Paper, Avatar, Typography,TextField,Button} from '@material-ui/core'
+import {Paper, Avatar, Typography,Button,IconButton,Menu,MenuItem} from '@material-ui/core'
 import {db} from '../../firebase'
 import styles from './post.module.css'
 import firebase from 'firebase'
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 export default function Post({postId,username,user,caption,imageUrl}){
   
     const [comments,setcomments] = useState ([]);
     const [comment,setComment] = useState('')
+    const [anchorEl, setAnchorEl] = React.useState(null);
+
+    const handleClick = (event) => {
+      setAnchorEl(event.currentTarget);
+    };
+  
+    const handleClose = () => {
+      setAnchorEl(null);
+    };
     
     useEffect(() =>    {
         let unsubscribe
@@ -44,8 +54,27 @@ export default function Post({postId,username,user,caption,imageUrl}){
         <div className={styles.container}>
         <Paper elevation={15} className={styles.paper}>
             <div className={styles.post_header}>
-                <Avatar className={styles.post_avatar} alt="Cindy Baker" src="https://images.pexels.com/photos/2937623/pexels-photo-2937623.jpeg?cs=srgb&dl=pexels-nugroho-wahyu-2937623.jpg&fm=jpg" />
-                <Typography className={styles.username}>{username}</Typography>
+                <div className={styles.post_header_profile}>
+                    <Avatar className={styles.post_avatar} alt="Cindy Baker" src="https://images.pexels.com/photos/2937623/pexels-photo-2937623.jpeg?cs=srgb&dl=pexels-nugroho-wahyu-2937623.jpg&fm=jpg" />
+                    <Typography className={styles.username}>{username}</Typography>
+                </div>
+                <div>
+                    <IconButton aria-label="options">
+                        <MoreVertIcon  onClick={handleClick}/>
+                        <Menu
+                            id="simple-menu"
+                            anchorEl={anchorEl}
+                            keepMounted
+                            open={Boolean(anchorEl)}
+                            onClose={handleClose}
+                        >
+                            <MenuItem onClick={handleClose}>Edit</MenuItem>
+                            <MenuItem onClick={handleClose}>Delete</MenuItem>
+                            <MenuItem onClick={handleClose}>Share</MenuItem>
+                        </Menu>
+                    </IconButton>
+                    
+                </div>    
             </div>
             <img className={styles.post_img} src={imageUrl} alt="photo"/>
             <div className={styles.post_footer}>

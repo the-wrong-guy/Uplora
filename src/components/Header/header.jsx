@@ -136,7 +136,7 @@ export default function BackToTop(props) {
       <AppBar style={{backgroundColor : '#ffffff'}}>
         <Toolbar className={styles.toolbar}>
           <div>
-          <Typography className={styles.header} style={{color:"#000000"}} variant="h6">Instagram</Typography>
+          <Typography className={styles.header} style={{color:"#000000"}} variant="h6">Shaoto</Typography>
           </div>
           <div>
             {user ? (<div className={styles.logout}>

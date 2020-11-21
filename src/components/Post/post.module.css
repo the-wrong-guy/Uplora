@@ -13,8 +13,14 @@
 .post_header{
     display: flex !important;
     align-items: center !important;
+    justify-content: space-between;
     padding: 10px 10px;
     margin-top: 5px;
+}
+
+.post_header_profile{
+    display: flex;
+    align-items: center ;
 }
 
 .post_avatar{
