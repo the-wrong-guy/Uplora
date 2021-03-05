@@ -13,6 +13,7 @@ import Header from "../Header/header";
 import Post from "../Post/post";
 import PostSkeleton from "../Post/postSkeleton";
 import ImageUpload from "../Upload/imageUplaod";
+import SmoothScroll from "../SmoothScroll/smoothScroll";
 import styles from "./main.module.scss";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -66,8 +67,30 @@ export default function Main() {
       </Fab>
       <Header />
       <Grid style={{ margin: "64px 0" }} container justify='center'>
-        {user && posts ? (
-          posts.map(({ id, post }) => (
+        <SmoothScroll>
+          {user && posts ? (
+            posts.map(({ id, post }) => (
+              <Grid
+                item
+                xs={12}
+                sm={12}
+                md={12}
+                style={{ display: "flex", justifyContent: "center" }}
+              >
+                <Post
+                  key={id}
+                  postId={id}
+                  username={post.username}
+                  postUserId={post.userId}
+                  user={user}
+                  displayName={post.displayName}
+                  displayPic={post.displayPic}
+                  caption={post.caption}
+                  imageUrl={post.imageUrl}
+                />
+              </Grid>
+            ))
+          ) : (
             <Grid
               item
               xs={12}
@@ -75,30 +98,10 @@ export default function Main() {
               md={12}
               style={{ display: "flex", justifyContent: "center" }}
             >
-              <Post
-                key={id}
-                postId={id}
-                username={post.username}
-                postUserId={post.userId}
-                user={user}
-                displayName={post.displayName}
-                displayPic={post.displayPic}
-                caption={post.caption}
-                imageUrl={post.imageUrl}
-              />
+              loading...
             </Grid>
-          ))
-        ) : (
-          <Grid
-            item
-            xs={12}
-            sm={12}
-            md={12}
-            style={{ display: "flex", justifyContent: "center" }}
-          >
-            loading...
-          </Grid>
-        )}
+          )}
+        </SmoothScroll>
       </Grid>
 
       <Dialog

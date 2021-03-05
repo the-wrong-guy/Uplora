@@ -49,7 +49,7 @@ function ImageUpload({ displayName, userId, displayPic }) {
   const resetForm = () => {
     setImage(null);
     setPreviewImg(null);
-    setCaption(null);
+    setCaption("");
     setUploading(false);
   };
   const handleUpload = async () => {

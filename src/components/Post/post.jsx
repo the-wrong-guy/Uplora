@@ -13,6 +13,7 @@ import styles from "./post.module.scss";
 import firebase from "firebase";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import Skeleton from "@material-ui/lab/Skeleton";
+import { PokemonSelector, PokemonCounter } from "@charkour/react-reactions";
 
 function Post({
   postId,
@@ -165,6 +166,21 @@ function Post({
           </Typography>
         </div>
       )}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          padding: "5px 10px",
+        }}
+      >
+        <div>
+          <PokemonCounter />
+        </div>
+        <div>
+          <PokemonSelector iconSize={20} />
+        </div>
+      </div>
 
       <div>
         {comments.map((comment) => (

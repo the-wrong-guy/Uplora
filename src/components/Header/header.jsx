@@ -144,10 +144,10 @@ export default function BackToTop(props) {
               style={{ color: "#000000" }}
               variant='h6'
             >
-              Pixex
+              Uplora
             </Typography>
           </div>
-          <div >
+          <div>
             {user && (
               <div className={styles.logout}>
                 <img
