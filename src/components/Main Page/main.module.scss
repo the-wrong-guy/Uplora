@@ -1,0 +1,17 @@
+.addBtn {
+  position: fixed !important;
+  top: 88%;
+  left: 5%;
+  z-index: 100;
+  background-color: #7654b4 !important;
+}
+
+.dialogBox {
+}
+
+@media only screen and (max-width: 600px) {
+  .addBtn {
+    // height: 20px !important;
+    // width: 37px !important;
+  }
+}

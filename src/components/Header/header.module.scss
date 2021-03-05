@@ -1,0 +1,29 @@
+.displayPic {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+}
+
+.header {
+  color: #00ac7c !important;
+  font-size: 30px !important;
+}
+
+.toolbar {
+  background-color: #ffffff;
+  display: flex;
+  justify-content: space-between;
+}
+
+
+.logout {
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-gap: 10px;
+  font-size: 5px;
+}

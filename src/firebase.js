@@ -1,27 +1,17 @@
 import firebase, { firestore } from "firebase";
 
 const firebaseApp = firebase.initializeApp({
-  apiKey: "AIzaSyByxMOEGmDye_KTp3TSvfJbgfaxMBKUXUU",
-  authDomain: "insta-clone-100-37426.firebaseapp.com",
-  databaseURL: "https://insta-clone-100-37426.firebaseio.com",
-  projectId: "insta-clone-100-37426",
-  storageBucket: "insta-clone-100-37426.appspot.com",
-  messagingSenderId: "664451095714",
-  appId: "1:664451095714:web:97034ab28428e299910bfb",
+  apiKey: "AIzaSyDXOLKwh4rhwjj2PTMQfRcYtYAGip_FWdw",
+  authDomain: "pixex-15977.firebaseapp.com",
+  projectId: "pixex-15977",
+  storageBucket: "pixex-15977.appspot.com",
+  messagingSenderId: "574601452026",
+  appId: "1:574601452026:web:9a0c557b1609a13c64ec43",
 });
 
 const db = firebaseApp.firestore();
 const auth = firebase.auth();
 const storage = firebase.storage();
+const googleProvider = new firebase.auth.GoogleAuthProvider();
 
-export { db, auth, storage };
-
-//   export default firebaseConfig
-
-// apiKey: "AIzaSyByxMOEGmDye_KTp3TSvfJbgfaxMBKUXUU",
-//     authDomain: "insta-clone-100-37426.firebaseapp.com",
-//     databaseURL: "https://insta-clone-100-37426.firebaseio.com",
-//     projectId: "insta-clone-100-37426",
-//     storageBucket: "insta-clone-100-37426.appspot.com",
-//     messagingSenderId: "664451095714",
-//     appId: "1:664451095714:web:97034ab28428e299910bfb"
+export { db, auth, storage, googleProvider };

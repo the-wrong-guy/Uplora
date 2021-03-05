@@ -1,0 +1,35 @@
+.imageupload {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: auto;
+  width: 400px;
+  padding: 13px;
+}
+
+.input {
+  border: none;
+  outline: none;
+  flex-grow: 1;
+}
+
+.input:focus {
+  border-bottom: 1px solid #343;
+}
+
+.previewImage {
+  max-width: 100%;
+  min-height: 50px;
+  max-height: 400px;
+}
+
+.cancelBtn {
+  position: absolute !important;
+  right: 13px !important;
+}
+
+@media only screen and (max-width: 600px) {
+  .imageupload {
+    width: 100%;
+  }
+}
