@@ -7,13 +7,16 @@ import {
   IconButton,
   Menu,
   MenuItem,
+  Fade,
 } from "@material-ui/core";
 import { db } from "../../firebase";
 import styles from "./post.module.scss";
-import firebase from "firebase";
+import firebase, { database } from "firebase";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import Skeleton from "@material-ui/lab/Skeleton";
 import { PokemonSelector, PokemonCounter } from "@charkour/react-reactions";
+import moment from "moment";
+import { v4 as uuid } from "uuid";
 
 function Post({
   postId,
@@ -23,11 +26,15 @@ function Post({
   imageUrl,
   user,
   postUserId,
+  createdAt,
 }) {
   const [comments, setcomments] = useState([]);
+  const [counter, setCounter] = useState([]);
   const [comment, setComment] = useState("");
-  const [anchorEl, setAnchorEl] = useState(null);
   const [imageLoaded, setImageLoaded] = useState(false);
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -35,6 +42,7 @@ function Post({
 
   const handleClose = () => {
     setAnchorEl(null);
+    console.log("Close");
   };
 
   useEffect(() => {
@@ -47,6 +55,24 @@ function Post({
         .orderBy("timestamp", "desc")
         .onSnapshot((snapshot) => {
           setcomments(snapshot.docs.map((doc) => doc.data()));
+          const data = snapshot.docs.map((doc) => doc.data());
+        });
+    }
+
+    return () => {
+      unsubscribe();
+    };
+  }, [postId]);
+
+  useEffect(() => {
+    let unsubscribe;
+    if (postId) {
+      unsubscribe = db
+        .collection("posts")
+        .doc(postId)
+        .collection("emojiCounter")
+        .onSnapshot((snapshot) => {
+          setCounter(snapshot.docs.map((doc) => doc.data()));
         });
     }
 
@@ -68,7 +94,7 @@ function Post({
   };
 
   const handleDeletePost = () => {
-    if (user.uid === postUserId) {
+    if (user && user.uid === postUserId) {
       db.collection("posts")
         .doc(postId)
         .delete()
@@ -77,6 +103,19 @@ function Post({
         })
         .catch((error) => {
           console.error("Error removing document: ", error);
+        });
+    }
+  };
+
+  const onReactionSelect = (e) => {
+    if (user) {
+      db.collection("posts")
+        .doc(postId)
+        .collection("emojiCounter")
+        .doc(user.uid)
+        .set({
+          emoji: e,
+          by: user.displayName,
         });
     }
   };
@@ -99,20 +138,26 @@ function Post({
               height={40}
             />
           )}
-
-          <Typography className={styles.username}>{displayName}</Typography>
+          <div style={{ display: "grid", marginLeft: "8px" }}>
+            <span className={styles.username}>
+              {displayName && displayName}
+            </span>
+            <span style={{ fontSize: "11px", color: "#ababab" }}>
+              {createdAt && moment(createdAt.toDate()).fromNow()}
+            </span>
+          </div>
         </div>
         <div>
           <IconButton onClick={handleClick} aria-label='options'>
             <MoreVertIcon />
             <Menu
-              id='simple-menu'
+              id='fade-menu'
               anchorEl={anchorEl}
               keepMounted
-              open={Boolean(anchorEl)}
+              open={open}
               onClose={handleClose}
+              TransitionComponent={Fade}
             >
-              <MenuItem onClick={handleClose}>Edit</MenuItem>
               <MenuItem onClick={handleDeletePost}>Delete</MenuItem>
               <MenuItem onClick={handleClose}>Share</MenuItem>
             </Menu>
@@ -131,7 +176,7 @@ function Post({
         <img
           className={styles.post_img}
           src={imageUrl}
-          alt='user uploaded pics'
+          alt={imageUrl}
           loading='lazy'
           style={{
             opacity: "0.1",
@@ -142,7 +187,7 @@ function Post({
         <img
           className={styles.post_img}
           src={imageUrl}
-          alt='user uploaded pics'
+          alt={imageUrl}
           style={{
             opacity: imageLoaded ? "1" : "0",
             transition: "opacity ease-in-out 1s",
@@ -154,13 +199,15 @@ function Post({
       </div>
       {caption !== "" && (
         <div className={styles.post_footer}>
-          <Typography
-            variant='caption'
-            color='initial'
-            style={{ fontWeight: "bold", paddingRight: "5px" }}
+          <span
+            style={{
+              fontWeight: "600",
+              paddingRight: "5px",
+              fontSize: "12.5px",
+            }}
           >
             {displayName}
-          </Typography>
+          </span>
           <Typography variant='caption' color='initial'>
             {caption}
           </Typography>
@@ -174,29 +221,35 @@ function Post({
           padding: "5px 10px",
         }}
       >
-        <div>
-          <PokemonCounter />
-        </div>
-        <div>
-          <PokemonSelector iconSize={20} />
+        {counter && (
+          <PokemonCounter
+            counters={counter}
+            user={user.displayName}
+            bg='lightgray'
+          />
+        )}
+        <div style={{ float: "right" }}>
+          <PokemonSelector onSelect={onReactionSelect} iconSize={20} />
         </div>
       </div>
 
       <div>
         {comments.map((comment) => (
-          <div className={styles.users_comments}>
+          <div key={uuid()} className={styles.users_comments}>
             <img
               className={styles.commentersPic}
               src={comment.displayPic}
               alt='commenter pic'
             />
-            <Typography
-              variant='caption'
-              color='initial'
-              style={{ fontWeight: "bold", paddingRight: "5px" }}
+            <span
+              style={{
+                fontWeight: "bold",
+                paddingRight: "5px",
+                fontSize: "12.5px",
+              }}
             >
               {comment.displayName}
-            </Typography>
+            </span>
             <Typography
               variant='caption'
               className={styles.posted_comments}

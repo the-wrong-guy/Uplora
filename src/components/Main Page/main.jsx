@@ -76,9 +76,9 @@ export default function Main() {
                 sm={12}
                 md={12}
                 style={{ display: "flex", justifyContent: "center" }}
+                key={id}
               >
                 <Post
-                  key={id}
                   postId={id}
                   username={post.username}
                   postUserId={post.userId}
@@ -87,6 +87,7 @@ export default function Main() {
                   displayPic={post.displayPic}
                   caption={post.caption}
                   imageUrl={post.imageUrl}
+                  createdAt={post.timestamp}
                 />
               </Grid>
             ))

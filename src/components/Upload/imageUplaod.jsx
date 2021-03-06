@@ -69,6 +69,7 @@ function ImageUpload({ displayName, userId, displayPic }) {
           displayName,
           userId,
           displayPic,
+          emojiCounter: [],
         });
         resetForm();
       } catch (error) {
