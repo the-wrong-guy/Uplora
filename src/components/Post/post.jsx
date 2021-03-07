@@ -17,6 +17,7 @@ import Skeleton from "@material-ui/lab/Skeleton";
 import { PokemonSelector, PokemonCounter } from "@charkour/react-reactions";
 import moment from "moment";
 import { v4 as uuid } from "uuid";
+import PokeBall from "./icons8-pokeball-48.png";
 
 function Post({
   postId,
@@ -32,6 +33,7 @@ function Post({
   const [counter, setCounter] = useState([]);
   const [comment, setComment] = useState("");
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [emojiSelector, setEmojiSelector] = useState(false);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -228,8 +230,29 @@ function Post({
             bg='lightgray'
           />
         )}
-        <div style={{ float: "right" }}>
-          <PokemonSelector onSelect={onReactionSelect} iconSize={20} />
+        <div style={{ float: "right", display: "flex" }}>
+          <div style={{ overflow: "hidden" }}>
+            <div
+              className={
+                emojiSelector
+                  ? styles.PokemonSelector_Active
+                  : styles.PokemonSelector_Idle
+              }
+            >
+              <PokemonSelector onSelect={onReactionSelect} iconSize={20} />
+            </div>
+          </div>
+
+          <IconButton
+            onClick={() => setEmojiSelector(!emojiSelector)}
+            size='small'
+          >
+            <img
+              style={{ height: "30px", width: "30px" }}
+              src={PokeBall}
+              alt='emoji selctor'
+            />
+          </IconButton>
         </div>
       </div>
 
