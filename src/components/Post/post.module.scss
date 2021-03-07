@@ -47,12 +47,17 @@ $post-border-color-size: 1px solid #d8d8db;
 }
 
 .posted_comments {
-  overflow-wrap: break-word;
+  // overflow-wrap: break-word;
+  font-size: 0.75rem;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.03333em;
 }
 
 .users_comments {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  overflow: hidden;
   gap: 3px;
   padding: 5px 10px;
 }
@@ -88,6 +93,7 @@ $post-border-color-size: 1px solid #d8d8db;
 textarea::-webkit-scrollbar-thumb {
   border-radius: 10px;
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
   background-color: #4285f4;
 }
 
@@ -130,9 +136,9 @@ textarea::-webkit-scrollbar-thumb {
 
 // Emoji Selectors
 .PokemonSelector_Idle {
-  -webkit-animation: slide-out 0.5s ease-in-out;
-  animation: slide-out 0.5s ease-in-out;
-  -webkit-transform: translateX(100%);
+  // -webkit-animation: slide-out 0.5s ease-in-out;
+  // animation: slide-out 0.5s ease-in-out;
+  // -webkit-transform: translateX(100%);
   transform: translateX(100%);
 }
 

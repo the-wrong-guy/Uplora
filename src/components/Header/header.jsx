@@ -81,7 +81,7 @@ function ScrollTop(props) {
   );
 }
 
-export default function BackToTop(props) {
+function BackToTop(props) {
   const classes = useStyles();
   const [user, setUser] = useState(null);
   const [username, setUsername] = useState("");
@@ -169,3 +169,5 @@ export default function BackToTop(props) {
     </React.Fragment>
   );
 }
+
+export default React.memo(BackToTop);

@@ -16,6 +16,7 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import Skeleton from "@material-ui/lab/Skeleton";
 import { PokemonSelector, PokemonCounter } from "@charkour/react-reactions";
 import moment from "moment";
+import cx from "classnames";
 import { v4 as uuid } from "uuid";
 import PokeBall from "./icons8-pokeball-48.png";
 
@@ -87,8 +88,8 @@ function Post({
     event.preventDefault();
     db.collection("posts").doc(postId).collection("comments").add({
       text: comment,
-      displayName,
-      displayPic,
+      displayName: user.displayName,
+      displayPic: user.photoURL,
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     });
 
@@ -119,6 +120,7 @@ function Post({
           emoji: e,
           by: user.displayName,
         });
+      setEmojiSelector(false);
     }
   };
 
@@ -230,8 +232,8 @@ function Post({
             bg='lightgray'
           />
         )}
-        <div style={{ float: "right", display: "flex" }}>
-          <div style={{ overflow: "hidden" }}>
+        <div style={{ float: "right", display: "flex", position: "relative" }}>
+          <div style={{ overflowX: "hidden", position: "relative" }}>
             <div
               className={
                 emojiSelector
@@ -249,7 +251,7 @@ function Post({
           >
             <img
               style={{ height: "30px", width: "30px" }}
-              src={PokeBall}
+              src={"https://img.icons8.com/fluent/48/000000/pokemon.png"}
               alt='emoji selctor'
             />
           </IconButton>
@@ -269,17 +271,20 @@ function Post({
                 fontWeight: "bold",
                 paddingRight: "5px",
                 fontSize: "12.5px",
+                display: "inline-block",
+                width: "min-content",
+                whiteSpace: "pre",
               }}
             >
               {comment.displayName}
             </span>
-            <Typography
+            <span
               variant='caption'
               className={styles.posted_comments}
               color='initial'
             >
               {comment.text}
-            </Typography>
+            </span>
           </div>
         ))}
       </div>
