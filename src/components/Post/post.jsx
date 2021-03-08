@@ -11,7 +11,8 @@ import {
 } from "@material-ui/core";
 import { db } from "../../firebase";
 import styles from "./post.module.scss";
-import firebase, { database } from "firebase";
+import firebase from "firebase";
+import { useDispatch, useSelector } from "react-redux";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import Skeleton from "@material-ui/lab/Skeleton";
 import { PokemonSelector, PokemonCounter } from "@charkour/react-reactions";
@@ -19,6 +20,8 @@ import moment from "moment";
 import cx from "classnames";
 import { v4 as uuid } from "uuid";
 import PokeBall from "./icons8-pokeball-48.png";
+
+import TextArea from "./textBox";
 
 function Post({
   postId,
@@ -30,9 +33,9 @@ function Post({
   postUserId,
   createdAt,
 }) {
+  const dispatch = useDispatch();
   const [comments, setcomments] = useState([]);
   const [counter, setCounter] = useState([]);
-  const [comment, setComment] = useState("");
   const [imageLoaded, setImageLoaded] = useState(false);
   const [emojiSelector, setEmojiSelector] = useState(false);
 
@@ -56,9 +59,9 @@ function Post({
         .doc(postId)
         .collection("comments")
         .orderBy("timestamp", "desc")
+        .limit(2)
         .onSnapshot((snapshot) => {
           setcomments(snapshot.docs.map((doc) => doc.data()));
-          const data = snapshot.docs.map((doc) => doc.data());
         });
     }
 
@@ -83,18 +86,6 @@ function Post({
       unsubscribe();
     };
   }, [postId]);
-
-  const postComment = (event) => {
-    event.preventDefault();
-    db.collection("posts").doc(postId).collection("comments").add({
-      text: comment,
-      displayName: user.displayName,
-      displayPic: user.photoURL,
-      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-    });
-
-    setComment("");
-  };
 
   const handleDeletePost = () => {
     if (user && user.uid === postUserId) {
@@ -258,9 +249,19 @@ function Post({
         </div>
       </div>
 
-      <div>
+      <div
+        style={{
+          position: "relative",
+          width: "100%",
+          borderTop: "1px solid #d1d1d1",
+        }}
+      >
         {comments.map((comment) => (
-          <div key={uuid()} className={styles.users_comments}>
+          <div
+            style={{ position: "relative", width: "100%" }}
+            key={uuid()}
+            className={styles.users_comments}
+          >
             <img
               className={styles.commentersPic}
               src={comment.displayPic}
@@ -290,21 +291,9 @@ function Post({
       </div>
 
       <div className={styles.comment_box}>
-        <textarea
-          className={styles.comment_box_input}
-          type='text'
-          placeholder='Add a comment...'
-          value={comment}
-          onChange={(e) => setComment(e.target.value)}
-        />
-        <Button
-          className={styles.comment_box_button}
-          disabled={!comment}
-          type='submit'
-          onClick={postComment}
-        >
-          post
-        </Button>
+        <div style={{ display: "flex", flex: "1" }}>
+          <TextArea postId={postId} />
+        </div>
       </div>
     </Paper>
   );

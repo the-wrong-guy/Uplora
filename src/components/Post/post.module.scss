@@ -75,31 +75,14 @@ $post-border-color-size: 1px solid #d8d8db;
   /* height: px; */
 }
 
-.comment_box_input {
-  flex: 1;
-  border: none;
-  padding: 10px;
-  // padding-top: 20px;
-  overflow-wrap: break-word !important;
-  word-break: break-word;
-  // line-height: 10px;
-  resize: none;
-  background-color: #e3e0f3 !important;
-  border-bottom-left-radius: 5px;
+.textBox::-webkit-scrollbar {
+  width: 4px;
 }
-.comment_box_input::-webkit-scrollbar {
-  width: 5px;
-}
-textarea::-webkit-scrollbar-thumb {
+.textBox::-webkit-scrollbar-thumb {
   border-radius: 10px;
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
   box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
-  background-color: #4285f4;
-}
-
-.comment_box_input:focus {
-  border: none !important;
-  outline: none;
+  background-color: #9581da;
 }
 
 .comment_box_button {

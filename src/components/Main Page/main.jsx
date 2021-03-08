@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Fab, Grid } from "@material-ui/core";
+import { useDispatch } from "react-redux";
+import { setUserInfo } from "../../Redux/Action/action";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
 import AddIcon from "@material-ui/icons/Add";
 import { auth, db } from "../../firebase";
 import Header from "../Header/header";
 import Post from "../Post/post";
-import PostSkeleton from "../Post/postSkeleton";
 import ImageUpload from "../Upload/imageUplaod";
 import SmoothScroll from "../SmoothScroll/smoothScroll";
 import styles from "./main.module.scss";
@@ -21,13 +19,15 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 export default function Main() {
+  const dispatch = useDispatch();
   const [posts, setPosts] = useState([]);
   const [user, setUser] = useState(null);
+  const [latestDoc, setLatestDoc] = useState(null);
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((authUser) => {
       if (authUser) {
-        console.log(authUser);
         setUser(authUser);
+        dispatch(setUserInfo(authUser));
       } else {
         setUser(null);
       }
@@ -46,15 +46,55 @@ export default function Main() {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const test = [];
   useEffect(() => {
-    db.collection("posts")
+    const unsub = db
+      .collection("posts")
       .orderBy("timestamp", "desc")
+      .limit(2)
       .onSnapshot((snapShot) => {
         setPosts(
           snapShot.docs.map((doc) => ({ id: doc.id, post: doc.data() }))
         );
+        // const dta = [];
+        // snapShot.forEach((doc) => {
+        //   dta.push({ id: doc.id, post: doc.data() });
+        // });
+        // setPosts(dta);
+        setLatestDoc(snapShot.docs[snapShot.docs.length - 1]);
+        // setLatestDoc(snapShot.docs.length);
       });
+
+    return unsub;
   }, []);
+
+  // debugger;
+  const loadMorePosts = async () => {
+    db.collection("posts")
+      .orderBy("timestamp", "desc")
+      .startAfter(latestDoc)
+      .limit(2)
+      .onSnapshot((snapShot) => {
+        setPosts([
+          ...posts,
+          snapShot.docs.map((doc) => ({ id: doc.id, post: doc.data() })),
+        ]);
+        // const dta = [];
+        // snapShot.forEach((doc) => {
+        //   dta.push({ id: doc.id, post: doc.data() });
+        // });
+        // setPosts([...posts, dta]);
+        setLatestDoc(snapShot.docs[snapShot.docs.length - 1]);
+        // snapShot.forEach((doc) => {
+        //   test.push({ id: doc.id, post: doc.data() });
+        // });
+      });
+    console.log(posts);
+    console.log(test);
+    console.log(latestDoc);
+  };
+
   return (
     <div style={{ position: "relative", width: "100%", height: "100%" }}>
       <Fab
@@ -66,8 +106,9 @@ export default function Main() {
         <AddIcon />
       </Fab>
       <Header />
+
       <Grid style={{ margin: "64px 0" }} container justify='center'>
-        <SmoothScroll>
+        <>
           {user && posts ? (
             posts.map(({ id, post }) => (
               <Grid
@@ -102,9 +143,11 @@ export default function Main() {
               loading...
             </Grid>
           )}
-        </SmoothScroll>
+          <Button onClick={loadMorePosts} variant='contained' color='default'>
+            Load More
+          </Button>
+        </>
       </Grid>
-
       <Dialog
         open={open}
         TransitionComponent={Transition}
