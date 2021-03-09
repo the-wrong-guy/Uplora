@@ -11,7 +11,7 @@ $post-border-color-size: 1px solid #d8d8db;
   height: auto;
   margin: 15px 0;
   border-radius: 5px !important;
-  background-color: #e3e0f3 !important;
+  background-color: #c2b6ff !important;
 }
 
 .post_header {
@@ -40,8 +40,8 @@ $post-border-color-size: 1px solid #d8d8db;
   display: flex;
   justify-content: center;
   max-width: 100%;
-  min-height: 300px;
-  max-height: 500px;
+  min-height: 210px;
+  max-height: 450px;
   // border-top: $post-border-color-size;
   // border-bottom: $post-border-color-size;
 }

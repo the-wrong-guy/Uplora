@@ -1,4 +1,4 @@
-import firebase, { firestore } from "firebase";
+import firebase from "firebase";
 
 const firebaseApp = firebase.initializeApp({
   apiKey: "AIzaSyDXOLKwh4rhwjj2PTMQfRcYtYAGip_FWdw",
@@ -6,7 +6,7 @@ const firebaseApp = firebase.initializeApp({
   projectId: "pixex-15977",
   storageBucket: "pixex-15977.appspot.com",
   messagingSenderId: "574601452026",
-  appId: "1:574601452026:web:9a0c557b1609a13c64ec43",
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
 });
 
 const db = firebaseApp.firestore();

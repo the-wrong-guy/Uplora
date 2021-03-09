@@ -50,7 +50,9 @@ function ResizableTextarea({ postId }) {
       });
 
       setComment({
+        ...comment,
         text: "",
+        rows: 1,
       });
     }
   };
@@ -74,7 +76,7 @@ function ResizableTextarea({ postId }) {
           height: "auto",
           padding: "8px",
           outline: "none",
-          backgroundColor: "#e3e0f3",
+          backgroundColor: "#c2b6ff",
         }}
         className={styles.textBox}
         onChange={handleChange}

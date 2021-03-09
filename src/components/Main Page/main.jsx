@@ -78,7 +78,7 @@ export default function Main() {
       .onSnapshot((snapShot) => {
         setPosts([
           ...posts,
-          snapShot.docs.map((doc) => ({ id: doc.id, post: doc.data() })),
+          ...snapShot.docs.map((doc) => ({ id: doc.id, post: doc.data() })),
         ]);
         // const dta = [];
         // snapShot.forEach((doc) => {
