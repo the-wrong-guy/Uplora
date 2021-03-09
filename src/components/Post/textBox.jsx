@@ -76,7 +76,7 @@ function ResizableTextarea({ postId }) {
           height: "auto",
           padding: "8px",
           outline: "none",
-          backgroundColor: "#c2b6ff",
+          backgroundColor: "#cdc3ff",
         }}
         className={styles.textBox}
         onChange={handleChange}

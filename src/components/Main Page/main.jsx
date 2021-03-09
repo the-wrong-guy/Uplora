@@ -108,7 +108,7 @@ export default function Main() {
       <Header />
 
       <Grid style={{ margin: "64px 0" }} container justify='center'>
-        <>
+        <SmoothScroll>
           {user && posts ? (
             posts.map(({ id, post }) => (
               <Grid
@@ -143,10 +143,10 @@ export default function Main() {
               loading...
             </Grid>
           )}
-          <Button onClick={loadMorePosts} variant='contained' color='default'>
-            Load More
-          </Button>
-        </>
+        </SmoothScroll>
+        <Button onClick={loadMorePosts} variant='contained' color='default'>
+          Load More
+        </Button>
       </Grid>
       <Dialog
         open={open}
