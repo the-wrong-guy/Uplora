@@ -107,7 +107,12 @@ export default function Main() {
       </Fab>
       <Header />
 
-      <Grid style={{ margin: "64px 0" }} container justify='center'>
+      <Grid
+        style={{ margin: "64px 0" }}
+        container
+        justify='center'
+        direction='row'
+      >
         <SmoothScroll>
           {user && posts ? (
             posts.map(({ id, post }) => (
@@ -144,9 +149,17 @@ export default function Main() {
             </Grid>
           )}
         </SmoothScroll>
-        <Button onClick={loadMorePosts} variant='contained' color='default'>
-          Load More
-        </Button>
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          md={12}
+          style={{ display: "flex", justifyContent: "center" }}
+        >
+          <Button onClick={loadMorePosts} variant='contained' color='default'>
+            Load More
+          </Button>
+        </Grid>
       </Grid>
       <Dialog
         open={open}

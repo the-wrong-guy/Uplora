@@ -5,92 +5,48 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import useScrollTrigger from "@material-ui/core/useScrollTrigger";
-import {
-  Container,
-  Button,
-  Modal,
-  Input,
-  Dialog,
-  DialogTitle,
-  TextField,
-  DialogContent,
-  DialogActions,
-  Avatar,
-} from "@material-ui/core";
-import Fab from "@material-ui/core/Fab";
-import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
-import Zoom from "@material-ui/core/Zoom";
+import { IconButton, Fab, Paper, Card, Chip } from "@material-ui/core";
+import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
+import CloseIcon from "@material-ui/icons/Close";
+import Button from "@material-ui/core/Button";
+import List from "@material-ui/core/List";
+import Divider from "@material-ui/core/Divider";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
 import styles from "./header.module.scss";
 import { db, auth } from "../../firebase";
-import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import LogoutIcon from "@material-ui/icons/ExitToApp";
 import BottomAppBar from "../Footer/footer";
+import cx from "classnames";
 
-function getModalStyle() {
-  const top = 50;
-  const left = 50;
-
-  return {
-    top: `${top}%`,
-    left: `${left}%`,
-    transform: `translate(-${top}%, -${left}%)`,
-  };
-}
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    position: "fixed",
-    bottom: theme.spacing(2),
-    right: theme.spacing(2),
-  },
-  paper: {
-    position: "absolute",
-    width: 400,
-    padding: theme.spacing(2, 4, 3),
-    backgroundColor: "#fff",
-  },
-}));
-
-function ScrollTop(props) {
-  const { children, window } = props;
-  const classes = useStyles();
-  // Note that you normally won't need to set the window ref as useScrollTrigger
-  // will default to window.
-  // This is only being set here because the demo is in an iframe.
-  const trigger = useScrollTrigger({
-    target: window ? window() : undefined,
-    disableHysteresis: true,
-    threshold: 100,
-  });
-
-  const handleClick = (event) => {
-    const anchor = (event.target.ownerDocument || document).querySelector(
-      "#back-to-top-anchor"
-    );
-
-    if (anchor) {
-      anchor.scrollIntoView({ behavior: "smooth", block: "center" });
-    }
-  };
-
-  return (
-    <Zoom in={trigger}>
-      <div onClick={handleClick} role='presentation' className={classes.root}>
-        {children}
-      </div>
-    </Zoom>
-  );
-}
-
+//Theme Icons
+import DarkThemeIcon from "@material-ui/icons/NightsStay";
+import LightThemeIcon from "@material-ui/icons/WbSunny";
+import DefaultThemeIcon from "@material-ui/icons/FilterVintage";
+//Report Icons
+import BugReportIcon from "@material-ui/icons/BugReport";
+import IdeasIcon from "@material-ui/icons/EmojiObjects";
+import IssuesIcon from "@material-ui/icons/Warning";
+//Social Icons
+import InstagramIcon from "@material-ui/icons/Instagram";
+import GitHubIcon from "@material-ui/icons/GitHub";
+import RedditIcon from "@material-ui/icons/Reddit";
 function BackToTop(props) {
-  const classes = useStyles();
   const [user, setUser] = useState(null);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
-  const [openSignIn, setOpenSignIn] = useState(false);
-  const [open, setOpen] = useState(false);
-  const [modalStyle] = useState(getModalStyle);
+  const [open, setOpen] = useState(true);
 
+  const toggleDrawer = (anchor, e) => (event) => {
+    if (
+      event &&
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
+      return;
+    }
+
+    setOpen(e);
+  };
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((authUser) => {
       if (authUser) {
@@ -103,35 +59,7 @@ function BackToTop(props) {
     return () => {
       unsubscribe();
     };
-  }, [user, username]);
-
-  const signUp = (event) => {
-    event.preventDefault();
-    auth
-      .createUserWithEmailAndPassword(email, password)
-      .then((authUser) => {
-        return authUser.user.updateProfile({
-          displayName: username,
-        });
-      })
-      .catch((error) => alert(error.message));
-
-    setOpen(false);
-  };
-
-  const signIn = (event) => {
-    event.preventDefault();
-
-    auth
-      .signInWithEmailAndPassword(email, password)
-      .catch((err) => alert(err.message));
-
-    setOpenSignIn(false);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
+  }, [user]);
 
   return (
     <React.Fragment>
@@ -147,24 +75,178 @@ function BackToTop(props) {
               Uplora
             </Typography>
           </div>
-          <div>
+          {user && (
+            <div className={styles.logout}>
+              <IconButton
+                aria-label='menu toggle'
+                onClick={() => setOpen(!open)}
+              >
+                <Fab size='small' color='default' aria-label=''>
+                  <img
+                    className={styles.displayPic}
+                    src={user.photoURL}
+                    alt='display pic'
+                  />
+                </Fab>
+              </IconButton>
+            </div>
+          )}
+        </Toolbar>
+        <SwipeableDrawer
+          anchor={"left"}
+          open={open}
+          onClose={toggleDrawer("left", false)}
+          onOpen={toggleDrawer("left", true)}
+          transitionDuration={600}
+        >
+          <div style={{ width: "100vw", height: "100vh" }}>
             {user && (
-              <div className={styles.logout}>
-                <img
-                  className={styles.displayPic}
-                  src={user.photoURL}
-                  alt='display pic'
-                />
-                <Button
-                  onClick={() => auth.signOut()}
-                  startIcon={<ExitToAppIcon />}
+              <List>
+                <ListItem>
+                  <IconButton
+                    aria-label='drawer closing button'
+                    onClick={() => setOpen(!open)}
+                    style={{ float: "right", position: "relative" }}
+                  >
+                    <CloseIcon />
+                  </IconButton>
+                </ListItem>
+                <ListItem className={styles.list_Item}>
+                  <div
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      gap: "7px",
+                      alignItems: "center",
+                      padding: "10px",
+                    }}
+                  >
+                    <Fab>
+                      <img
+                        style={{ height: "60px", width: "60px" }}
+                        src={user.photoURL}
+                        alt={"user display pic"}
+                      />
+                    </Fab>
+                    <Chip color='primary' label={user.displayName} />
+                  </div>
+                </ListItem>
+                <ListItem className={styles.list_Item}>
+                  <div className={styles.list_cards}>
+                    <Typography
+                      align='center'
+                      variant='subtitle1'
+                      color='initial'
+                    >
+                      Theme
+                    </Typography>
+                    <div className={styles.theme_switcher}>
+                      <input type='radio' id='default-theme' name='themes' />
+                      <label htmlFor='default-theme'>
+                        <span>
+                          <DefaultThemeIcon />
+                          Default
+                        </span>
+                      </label>
+                      <input type='radio' id='dark-theme' name='themes' />
+                      <label htmlFor='dark-theme'>
+                        <span>
+                          <DarkThemeIcon />
+                          Dark
+                        </span>
+                      </label>
+                      <input type='radio' id='light-theme' name='themes' />
+                      <label htmlFor='light-theme'>
+                        <span>
+                          <LightThemeIcon />
+                          Light
+                        </span>
+                      </label>
+                      <span className={styles.slider}></span>
+                    </div>
+                  </div>
+                </ListItem>
+                <ListItem className={styles.list_Item}>
+                  <div className={cx(styles.list_cards, styles.bugReportCard)}>
+                    <Typography
+                      align='center'
+                      variant='subtitle1'
+                      color='initial'
+                    >
+                      Report
+                    </Typography>
+                    <div
+                      style={{
+                        gap: "15px",
+                        display: "flex",
+                        justifyContent: "space-evenly",
+                      }}
+                    >
+                      <Button
+                        variant='contained'
+                        className={styles.list_buttons}
+                        size='small'
+                        endIcon={<BugReportIcon />}
+                      >
+                        Bugs
+                      </Button>
+                      <Button
+                        variant='contained'
+                        className={styles.list_buttons}
+                        size='small'
+                        endIcon={<IssuesIcon />}
+                      >
+                        Issues
+                      </Button>
+                      <Button
+                        variant='contained'
+                        className={styles.list_buttons}
+                        size='small'
+                        endIcon={<IdeasIcon />}
+                      >
+                        Ideas
+                      </Button>
+                    </div>
+                  </div>
+                </ListItem>
+                <ListItem className={styles.list_Item}>
+                  <div className={cx(styles.list_cards, styles.bugReportCard)}>
+                    <Typography align='center' variant='body1' color='initial'>
+                      Follow the Dev
+                    </Typography>
+                    <div>
+                      <IconButton aria-label='insta'>
+                        <InstagramIcon style={{ color: "#737374" }} />
+                      </IconButton>
+                      <IconButton aria-label='insta'>
+                        <GitHubIcon style={{ color: "#737374" }} />
+                      </IconButton>
+                      <IconButton aria-label='insta'>
+                        <RedditIcon style={{ color: "#737374" }} />
+                      </IconButton>
+                    </div>
+                  </div>
+                </ListItem>
+                <ListItem
+                  style={{ marginTop: "auto" }}
+                  className={styles.list_Item}
                 >
-                  Logout
-                </Button>
-              </div>
+                  <Button
+                    endIcon={<LogoutIcon />}
+                    variant='contained'
+                    className={styles.list_buttons}
+                    size='small'
+                  >
+                    Logout
+                  </Button>
+                </ListItem>
+              </List>
             )}
           </div>
-        </Toolbar>
+        </SwipeableDrawer>
       </AppBar>
     </React.Fragment>
   );
