@@ -34,7 +34,7 @@ import GitHubIcon from "@material-ui/icons/GitHub";
 import RedditIcon from "@material-ui/icons/Reddit";
 function BackToTop(props) {
   const [user, setUser] = useState(null);
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
 
   const toggleDrawer = (anchor, e) => (event) => {
     if (
@@ -126,7 +126,11 @@ function BackToTop(props) {
                   >
                     <Fab>
                       <img
-                        style={{ height: "60px", width: "60px" }}
+                        style={{
+                          height: "60px",
+                          width: "60px",
+                          borderRadius: "50%",
+                        }}
                         src={user.photoURL}
                         alt={"user display pic"}
                       />
@@ -239,6 +243,7 @@ function BackToTop(props) {
                     variant='contained'
                     className={styles.list_buttons}
                     size='small'
+                    onClick={() => auth.signOut()}
                   >
                     Logout
                   </Button>
