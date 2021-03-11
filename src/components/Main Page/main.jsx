@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Fab, Grid } from "@material-ui/core";
+import { Fab, Grid, Paper } from "@material-ui/core";
 import { useDispatch } from "react-redux";
 import { setUserInfo } from "../../Redux/Action/action";
 import Button from "@material-ui/core/Button";
@@ -23,6 +23,7 @@ export default function Main() {
   const [posts, setPosts] = useState([]);
   const [user, setUser] = useState(null);
   const [latestDoc, setLatestDoc] = useState(null);
+  const [hasMorePosts, setHasMorePosts] = useState(false);
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((authUser) => {
       if (authUser) {
@@ -49,24 +50,17 @@ export default function Main() {
 
   const test = [];
   useEffect(() => {
-    const unsub = db
-      .collection("posts")
+    db.collection("posts")
       .orderBy("timestamp", "desc")
-      .limit(2)
+      .limit(15)
       .onSnapshot((snapShot) => {
         setPosts(
           snapShot.docs.map((doc) => ({ id: doc.id, post: doc.data() }))
         );
-        // const dta = [];
-        // snapShot.forEach((doc) => {
-        //   dta.push({ id: doc.id, post: doc.data() });
-        // });
-        // setPosts(dta);
         setLatestDoc(snapShot.docs[snapShot.docs.length - 1]);
-        // setLatestDoc(snapShot.docs.length);
       });
 
-    return unsub;
+    // return unsub;
   }, []);
 
   // debugger;
@@ -74,21 +68,14 @@ export default function Main() {
     db.collection("posts")
       .orderBy("timestamp", "desc")
       .startAfter(latestDoc)
-      .limit(2)
+      .limit(15)
       .onSnapshot((snapShot) => {
         setPosts([
           ...posts,
           ...snapShot.docs.map((doc) => ({ id: doc.id, post: doc.data() })),
         ]);
-        // const dta = [];
-        // snapShot.forEach((doc) => {
-        //   dta.push({ id: doc.id, post: doc.data() });
-        // });
-        // setPosts([...posts, dta]);
         setLatestDoc(snapShot.docs[snapShot.docs.length - 1]);
-        // snapShot.forEach((doc) => {
-        //   test.push({ id: doc.id, post: doc.data() });
-        // });
+        setHasMorePosts(snapShot.docs.length > 0);
       });
     console.log(posts);
     console.log(test);
@@ -113,7 +100,7 @@ export default function Main() {
         justify='center'
         direction='row'
       >
-        <SmoothScroll>
+        <>
           {user && posts ? (
             posts.map(({ id, post }) => (
               <Grid
@@ -148,7 +135,7 @@ export default function Main() {
               loading...
             </Grid>
           )}
-        </SmoothScroll>
+        </>
         <Grid
           item
           xs={12}

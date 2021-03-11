@@ -1,21 +1,18 @@
 import actionTypes from "../Action/action.types";
 
 const intialState = {
-  darkTheme: true,
   drawerOpen: false,
   userInfo: null,
-  textPresence: false,
+  GlobalTheme: "light",
 };
 const CONFIG = (state = intialState, action) => {
   switch (action.type) {
-    case actionTypes.THEME_TOGGLE:
-      return { ...state, darkTheme: !state.darkTheme };
+    case actionTypes.SET_GLOBAL_THEME:
+      return { ...state, GlobalTheme: action.payload };
     case actionTypes.DRAWER_TOGGLE:
       return { ...state, drawerOpen: !state.drawerOpen };
     case actionTypes.SET_USER_INFO:
       return { ...state, userInfo: action.payload };
-    case actionTypes.SET_TEXT_PRESENCE:
-      return { ...state, textPresence: !state.textPresence };
     default:
       return state;
   }

@@ -11,6 +11,15 @@ $post-border-color-size: 1px solid #d8d8db;
   height: auto;
   margin: 15px 0;
   border-radius: 5px !important;
+}
+
+.paper_dark {
+  background-color: #5c5c5c !important;
+}
+.paper_light {
+  background-color: #ffffff !important;
+}
+.paper_remix {
   background-color: #cdc3ff !important;
 }
 
@@ -32,7 +41,7 @@ $post-border-color-size: 1px solid #d8d8db;
 
 .username {
   // padding: 0 8px !important;
-  color: #565558 !important;
+  // color: #565558 !important;
   font-size: 15px;
 }
 

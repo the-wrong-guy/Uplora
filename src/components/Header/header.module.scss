@@ -15,7 +15,7 @@
 }
 
 .toolbar {
-  background-color: #ffb9b3;
+  // background-color: #ffb9b3;
   display: flex;
   justify-content: space-between;
 }
@@ -104,12 +104,11 @@
   width: 400px;
   padding: 10px;
   border-radius: 9px !important;
-  background-color: rgb(228, 228, 228);
 }
 
 @mixin drawerButtons {
   background-color: #fff !important;
-  color: #737374 !important;
+  // color: #737374 !important;
   text-transform: unset !important;
 }
 
@@ -127,5 +126,9 @@
 @media only screen and (max-width: 600px) {
   .list_cards {
     width: 90vw;
+  }
+
+  .toolbar {
+    max-height: 45px !important;
   }
 }

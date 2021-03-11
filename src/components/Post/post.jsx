@@ -11,7 +11,6 @@ import {
 } from "@material-ui/core";
 import { db } from "../../firebase";
 import styles from "./post.module.scss";
-import firebase from "firebase";
 import { useDispatch, useSelector } from "react-redux";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import Skeleton from "@material-ui/lab/Skeleton";
@@ -19,7 +18,6 @@ import { PokemonSelector, PokemonCounter } from "@charkour/react-reactions";
 import moment from "moment";
 import cx from "classnames";
 import { v4 as uuid } from "uuid";
-import PokeBall from "./icons8-pokeball-48.png";
 
 import TextArea from "./textBox";
 
@@ -33,6 +31,7 @@ function Post({
   postUserId,
   createdAt,
 }) {
+  const GlobalTheme = useSelector((state) => state.CONFIG.GlobalTheme);
   const dispatch = useDispatch();
   const [comments, setcomments] = useState([]);
   const [counter, setCounter] = useState([]);
@@ -116,7 +115,10 @@ function Post({
   };
 
   return (
-    <Paper elevation={15} className={styles.paper}>
+    <Paper
+      elevation={15}
+      className={cx(styles.paper, `${styles}.paper_${GlobalTheme}`)}
+    >
       <div className={styles.post_header}>
         <div className={styles.post_header_profile}>
           {displayPic ? (
@@ -134,12 +136,12 @@ function Post({
             />
           )}
           <div style={{ display: "grid", marginLeft: "8px" }}>
-            <span className={styles.username}>
+            <Typography color='textPrimary' className={styles.username}>
               {displayName && displayName}
-            </span>
-            <span style={{ fontSize: "11px", color: "#ababab" }}>
+            </Typography>
+            <Typography color='textSecondary' style={{ fontSize: "11px" }}>
               {createdAt && moment(createdAt.toDate()).fromNow()}
-            </span>
+            </Typography>
           </div>
         </div>
         <div>
@@ -221,6 +223,7 @@ function Post({
             counters={counter}
             user={user.displayName}
             bg='lightgray'
+            alwaysShowOthers={false}
           />
         )}
         <div style={{ float: "right", display: "flex", position: "relative" }}>
@@ -249,46 +252,48 @@ function Post({
         </div>
       </div>
 
-      <div
-        style={{
-          position: "relative",
-          width: "100%",
-          borderTop: "1px solid #d1d1d1",
-        }}
-      >
-        {comments.map((comment) => (
-          <div
-            style={{ position: "relative", width: "100%" }}
-            key={uuid()}
-            className={styles.users_comments}
-          >
-            <img
-              className={styles.commentersPic}
-              src={comment.displayPic}
-              alt='commenter pic'
-            />
-            <span
-              style={{
-                fontWeight: "bold",
-                paddingRight: "5px",
-                fontSize: "12.5px",
-                display: "inline-block",
-                width: "min-content",
-                whiteSpace: "pre",
-              }}
+      {comments.length > 0 && (
+        <div
+          style={{
+            position: "relative",
+            width: "100%",
+            borderTop: "1px solid #d1d1d1",
+          }}
+        >
+          {comments.map((comment) => (
+            <div
+              style={{ position: "relative", width: "100%" }}
+              key={uuid()}
+              className={styles.users_comments}
             >
-              {comment.displayName}
-            </span>
-            <span
-              variant='caption'
-              className={styles.posted_comments}
-              color='initial'
-            >
-              {comment.text}
-            </span>
-          </div>
-        ))}
-      </div>
+              <img
+                className={styles.commentersPic}
+                src={comment.displayPic}
+                alt='commenter pic'
+              />
+              <span
+                style={{
+                  fontWeight: "bold",
+                  paddingRight: "5px",
+                  fontSize: "12.5px",
+                  display: "inline-block",
+                  width: "min-content",
+                  whiteSpace: "pre",
+                }}
+              >
+                {comment.displayName}
+              </span>
+              <span
+                variant='caption'
+                className={styles.posted_comments}
+                color='initial'
+              >
+                {comment.text}
+              </span>
+            </div>
+          ))}
+        </div>
+      )}
 
       <div className={styles.comment_box}>
         <div style={{ display: "flex", flex: "1" }}>

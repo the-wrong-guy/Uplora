@@ -2,22 +2,18 @@ import React, { useState, useEffect } from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import useScrollTrigger from "@material-ui/core/useScrollTrigger";
 import { IconButton, Fab, Paper, Card, Chip } from "@material-ui/core";
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
 import CloseIcon from "@material-ui/icons/Close";
 import Button from "@material-ui/core/Button";
 import List from "@material-ui/core/List";
-import Divider from "@material-ui/core/Divider";
 import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
+import { useDispatch } from "react-redux";
+import { setGlobalTheme } from "../../Redux/Action/action";
 import styles from "./header.module.scss";
-import { db, auth } from "../../firebase";
+import { auth } from "../../firebase";
 import LogoutIcon from "@material-ui/icons/ExitToApp";
-import BottomAppBar from "../Footer/footer";
 import cx from "classnames";
 
 //Theme Icons
@@ -32,10 +28,32 @@ import IssuesIcon from "@material-ui/icons/Warning";
 import InstagramIcon from "@material-ui/icons/Instagram";
 import GitHubIcon from "@material-ui/icons/GitHub";
 import RedditIcon from "@material-ui/icons/Reddit";
-function BackToTop(props) {
+
+function Header(props) {
+  const dispatch = useDispatch();
   const [user, setUser] = useState(null);
   const [open, setOpen] = useState(false);
+  const [Theme, setTheme] = useState("light");
 
+  useEffect(() => {
+    function checkingTheme() {
+      const currentTheme = localStorage.getItem("Theme");
+      if (currentTheme) {
+        setTheme(currentTheme);
+        dispatch(setGlobalTheme(currentTheme));
+      }
+    }
+
+    checkingTheme();
+
+    return checkingTheme();
+  }, []);
+
+  const handleToggleTheme = (e) => {
+    setTheme(e);
+    dispatch(setGlobalTheme(e));
+    localStorage.setItem("Theme", e);
+  };
   const toggleDrawer = (anchor, e) => (event) => {
     if (
       event &&
@@ -64,14 +82,10 @@ function BackToTop(props) {
   return (
     <React.Fragment>
       <CssBaseline />
-      <AppBar style={{ backgroundColor: "#ffffff" }}>
+      <AppBar color='inherit'>
         <Toolbar className={styles.toolbar}>
           <div>
-            <Typography
-              className={styles.header}
-              style={{ color: "#000000" }}
-              variant='h6'
-            >
+            <Typography className={styles.header} variant='h6'>
               Uplora
             </Typography>
           </div>
@@ -135,11 +149,11 @@ function BackToTop(props) {
                         alt={"user display pic"}
                       />
                     </Fab>
-                    <Chip color='primary' label={user.displayName} />
+                    <Chip color='secondary' label={user.displayName} />
                   </div>
                 </ListItem>
                 <ListItem className={styles.list_Item}>
-                  <div className={styles.list_cards}>
+                  <Card elevation={0} className={styles.list_cards}>
                     <Typography
                       align='center'
                       variant='subtitle1'
@@ -148,33 +162,54 @@ function BackToTop(props) {
                       Theme
                     </Typography>
                     <div className={styles.theme_switcher}>
-                      <input type='radio' id='default-theme' name='themes' />
-                      <label htmlFor='default-theme'>
+                      <input
+                        type='radio'
+                        id='remix-theme'
+                        onChange={() => handleToggleTheme("remix")}
+                        checked={Theme === "remix" ? true : false}
+                        name='themes'
+                      />
+                      <label htmlFor='remix-theme'>
                         <span>
-                          <DefaultThemeIcon />
-                          Default
+                          <DefaultThemeIcon style={{ color: " #ff53a2" }} />
+                          Remix
                         </span>
                       </label>
-                      <input type='radio' id='dark-theme' name='themes' />
+                      <input
+                        type='radio'
+                        id='dark-theme'
+                        onChange={() => handleToggleTheme("dark")}
+                        checked={Theme === "dark" ? true : false}
+                        name='themes'
+                      />
                       <label htmlFor='dark-theme'>
                         <span>
-                          <DarkThemeIcon />
+                          <DarkThemeIcon style={{ color: "#000" }} />
                           Dark
                         </span>
                       </label>
-                      <input type='radio' id='light-theme' name='themes' />
+                      <input
+                        type='radio'
+                        id='light-theme'
+                        name='themes'
+                        onChange={() => handleToggleTheme("light")}
+                        checked={Theme === "light" ? true : false}
+                      />
                       <label htmlFor='light-theme'>
                         <span>
-                          <LightThemeIcon />
+                          <LightThemeIcon style={{ color: "#ffd504" }} />
                           Light
                         </span>
                       </label>
                       <span className={styles.slider}></span>
                     </div>
-                  </div>
+                  </Card>
                 </ListItem>
                 <ListItem className={styles.list_Item}>
-                  <div className={cx(styles.list_cards, styles.bugReportCard)}>
+                  <Card
+                    elevation={0}
+                    className={cx(styles.list_cards, styles.bugReportCard)}
+                  >
                     <Typography
                       align='center'
                       variant='subtitle1'
@@ -214,25 +249,28 @@ function BackToTop(props) {
                         Ideas
                       </Button>
                     </div>
-                  </div>
+                  </Card>
                 </ListItem>
                 <ListItem className={styles.list_Item}>
-                  <div className={cx(styles.list_cards, styles.bugReportCard)}>
+                  <Card
+                    elevation={0}
+                    className={cx(styles.list_cards, styles.bugReportCard)}
+                  >
                     <Typography align='center' variant='body1' color='initial'>
                       Follow the Dev
                     </Typography>
                     <div>
-                      <IconButton aria-label='insta'>
-                        <InstagramIcon style={{ color: "#737374" }} />
+                      <IconButton aria-label='instagram link'>
+                        <InstagramIcon />
                       </IconButton>
-                      <IconButton aria-label='insta'>
-                        <GitHubIcon style={{ color: "#737374" }} />
+                      <IconButton aria-label='github link'>
+                        <GitHubIcon />
                       </IconButton>
-                      <IconButton aria-label='insta'>
-                        <RedditIcon style={{ color: "#737374" }} />
+                      <IconButton aria-label='redit link'>
+                        <RedditIcon />
                       </IconButton>
                     </div>
-                  </div>
+                  </Card>
                 </ListItem>
                 <ListItem
                   style={{ marginTop: "auto" }}
@@ -257,4 +295,4 @@ function BackToTop(props) {
   );
 }
 
-export default React.memo(BackToTop);
+export default React.memo(Header);

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Typography, Button } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import { auth, googleProvider } from "../../firebase";
@@ -17,6 +17,18 @@ export default function Login() {
       })
       .catch((err) => console.log(err));
   };
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((authUser) => {
+      if (authUser) {
+        history.push("/home");
+      } else {
+        history.push("/");
+      }
+    });
+    return unsubscribe;
+  }, []);
+  
   return (
     <div className='main-container'>
       <h2 className={styles.header}>Welcome To Pixex</h2>

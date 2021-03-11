@@ -1,8 +1,11 @@
-*{
-  margin: 0;
-  padding: 0;
+.app_body_dark {
+  background-color: #252525 !important;
 }
 
+.app_body_light {
+  background-color: #ffffff !important;
+}
 
-
-
+.app_body_remix {
+  background-color: #ffb9b3 !important;
+}

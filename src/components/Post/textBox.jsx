@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import firebase from "firebase";
 import { useDispatch, useSelector } from "react-redux";
 import { setTextPresence } from "../../Redux/Action/action";
-import { Button } from "@material-ui/core";
+import { Button, Paper } from "@material-ui/core";
 import { db } from "../../firebase";
 import styles from "./post.module.scss";
 
@@ -56,31 +56,33 @@ function ResizableTextarea({ postId }) {
       });
     }
   };
-
+  // backgroundColor: "#cdc3ff",
   return (
     <>
-      <textarea
-        rows={comment.rows}
-        value={comment.text}
-        placeholder={"Add a comment..."}
-        style={{
-          width: "100%",
-          position: "relative",
-          boxSizing: "border-box",
-          border: "none",
-          borderRadius: "3px",
-          resize: "none",
-          fontSize: "13.2px",
-          lineHeight: "20px",
-          overflow: "auto",
-          height: "auto",
-          padding: "8px",
-          outline: "none",
-          backgroundColor: "#cdc3ff",
-        }}
-        className={styles.textBox}
-        onChange={handleChange}
-      />
+      <Paper elevation={0} style={{ flex: "1" }}>
+        <textarea
+          rows={comment.rows}
+          value={comment.text}
+          placeholder={"Add a comment..."}
+          style={{
+            width: "100%",
+            position: "relative",
+            border: "none",
+            borderRadius: "3px",
+            resize: "none",
+            fontSize: "13.2px",
+            lineHeight: "20px",
+            overflow: "auto",
+            height: "auto",
+            padding: "8px",
+            outline: "none",
+            background: "transparent",
+          }}
+          className={styles.textBox}
+          onChange={handleChange}
+        />
+      </Paper>
+
       <Button
         className={styles.comment_box_button}
         disabled={!comment.text}
