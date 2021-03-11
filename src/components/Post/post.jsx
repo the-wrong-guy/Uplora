@@ -3,7 +3,6 @@ import {
   Paper,
   Avatar,
   Typography,
-  Button,
   IconButton,
   Menu,
   MenuItem,
@@ -12,6 +11,7 @@ import {
 import { db } from "../../firebase";
 import styles from "./post.module.scss";
 import { useDispatch, useSelector } from "react-redux";
+
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import Skeleton from "@material-ui/lab/Skeleton";
 import { PokemonSelector, PokemonCounter } from "@charkour/react-reactions";
@@ -32,7 +32,6 @@ function Post({
   createdAt,
 }) {
   const GlobalTheme = useSelector((state) => state.CONFIG.GlobalTheme);
-  const dispatch = useDispatch();
   const [comments, setcomments] = useState([]);
   const [counter, setCounter] = useState([]);
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -50,6 +49,15 @@ function Post({
     console.log("Close");
   };
 
+  const themeFuncForBorders = () => {
+    if (GlobalTheme === "dark") {
+      return "rgb(70 70 70)";
+    } else if (GlobalTheme === "light") {
+      return "rgb(240 240 240)";
+    } else if (GlobalTheme === "remix") {
+      return "rgb(194 181 255)";
+    }
+  };
   useEffect(() => {
     let unsubscribe;
     if (postId) {
@@ -115,10 +123,7 @@ function Post({
   };
 
   return (
-    <Paper
-      elevation={15}
-      className={cx(styles.paper, `${styles}.paper_${GlobalTheme}`)}
-    >
+    <Paper elevation={15} className={cx(styles.paper)}>
       <div className={styles.post_header}>
         <div className={styles.post_header_profile}>
           {displayPic ? (
@@ -257,7 +262,7 @@ function Post({
           style={{
             position: "relative",
             width: "100%",
-            borderTop: "1px solid #d1d1d1",
+            borderTop: `1px solid ${themeFuncForBorders()}`,
           }}
         >
           {comments.map((comment) => (
@@ -295,7 +300,7 @@ function Post({
         </div>
       )}
 
-      <div className={styles.comment_box}>
+      <div style={{ borderTop: `1px solid ${themeFuncForBorders()}` }}>
         <div style={{ display: "flex", flex: "1" }}>
           <TextArea postId={postId} />
         </div>

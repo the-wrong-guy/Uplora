@@ -87,7 +87,7 @@ function ImageUpload({ displayName, userId, displayPic }) {
   return (
     <div className={styles.imageupload}>
       <input
-        accept='image/*,video/*'
+        accept='image/*'
         onChange={handleChange}
         className={classes.input}
         id='icon-button-file'

@@ -1,4 +1,4 @@
-$post-border-color-size: 1px solid #d8d8db;
+$post-border-color: rgb(240, 240, 240);
 
 .container {
   margin: 0 auto;
@@ -77,12 +77,6 @@ $post-border-color-size: 1px solid #d8d8db;
   padding: 5px 10px;
 }
 
-.comment_box {
-  display: flex;
-  border-top: 1px solid #d1d1d1;
-  // margin-top: 10px;
-  /* height: px; */
-}
 
 .textBox::-webkit-scrollbar {
   width: 4px;

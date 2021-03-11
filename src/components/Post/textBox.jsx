@@ -59,7 +59,10 @@ function ResizableTextarea({ postId }) {
   // backgroundColor: "#cdc3ff",
   return (
     <>
-      <Paper elevation={0} style={{ flex: "1" }}>
+      <Paper
+        elevation={0}
+        style={{ flex: "1", display: "flex", alignItems: "center" }}
+      >
         <textarea
           rows={comment.rows}
           value={comment.text}

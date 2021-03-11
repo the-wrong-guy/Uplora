@@ -9,7 +9,8 @@ import CloseIcon from "@material-ui/icons/Close";
 import Button from "@material-ui/core/Button";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { setGlobalTheme } from "../../Redux/Action/action";
 import styles from "./header.module.scss";
 import { auth } from "../../firebase";
@@ -30,11 +31,16 @@ import GitHubIcon from "@material-ui/icons/GitHub";
 import RedditIcon from "@material-ui/icons/Reddit";
 
 function Header(props) {
+  const history = useHistory();
   const dispatch = useDispatch();
-  const [user, setUser] = useState(null);
+  const user = useSelector((state) => state.CONFIG.userInfo);
   const [open, setOpen] = useState(false);
   const [Theme, setTheme] = useState("light");
 
+  const handleSignOut = () => {
+    auth.signOut();
+    history.push("/");
+  };
   useEffect(() => {
     function checkingTheme() {
       const currentTheme = localStorage.getItem("Theme");
@@ -65,20 +71,6 @@ function Header(props) {
 
     setOpen(e);
   };
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((authUser) => {
-      if (authUser) {
-        console.log(authUser);
-        setUser(authUser);
-      } else {
-        setUser(null);
-      }
-    });
-    return () => {
-      unsubscribe();
-    };
-  }, [user]);
-
   return (
     <React.Fragment>
       <CssBaseline />
@@ -281,7 +273,7 @@ function Header(props) {
                     variant='contained'
                     className={styles.list_buttons}
                     size='small'
-                    onClick={() => auth.signOut()}
+                    onClick={handleSignOut}
                   >
                     Logout
                   </Button>

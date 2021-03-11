@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Fab, Grid, Paper } from "@material-ui/core";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setUserInfo } from "../../Redux/Action/action";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -21,22 +21,9 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export default function Main() {
   const dispatch = useDispatch();
   const [posts, setPosts] = useState([]);
-  const [user, setUser] = useState(null);
+  const user = useSelector((state) => state.CONFIG.userInfo);
   const [latestDoc, setLatestDoc] = useState(null);
   const [hasMorePosts, setHasMorePosts] = useState(false);
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((authUser) => {
-      if (authUser) {
-        setUser(authUser);
-        dispatch(setUserInfo(authUser));
-      } else {
-        setUser(null);
-      }
-    });
-    return () => {
-      unsubscribe();
-    };
-  }, [user]);
 
   const [open, setOpen] = useState(false);
 
