@@ -1,57 +1,54 @@
-import React, { useRef, useState, useCallback, useLayoutEffect } from "react"
-import ResizeObserver from "resize-observer-polyfill"
-import {
-  useViewportScroll,
-  useTransform,
-  useSpring,
-  motion
-} from "framer-motion"
+import React, { useEffect, useRef } from "react";
+import useWindowSize from "../Hooks/useWindowSize";
+import "./smoothScroll.css";
 
 const SmoothScroll = ({ children }) => {
-  // scroll container
-  const scrollRef = useRef(null)
+  // 1.
+  const windowSize = useWindowSize();
 
-  // page scrollable height based on content length
-  const [pageHeight, setPageHeight] = useState(0)
+  //2.
+  const scrollingContainerRef = useRef();
 
-  // update scrollable height when browser is resizing
-  const resizePageHeight = useCallback(entries => {
-    for (let entry of entries) {
-      setPageHeight(entry.contentRect.height)
-    }
-  }, [])
+  // 3.
+  const data = {
+    ease: 0.1,
+    current: 0,
+    previous: 0,
+    rounded: 0,
+  };
 
-  // observe when browser is resizing
-  useLayoutEffect(() => {
-    const resizeObserver = new ResizeObserver(entries =>
-      resizePageHeight(entries)
-    )
-    scrollRef && resizeObserver.observe(scrollRef.current)
-    return () => resizeObserver.disconnect()
-  }, [scrollRef, resizePageHeight])
+  // 4.
+  useEffect(() => {
+    setBodyHeight();
+  }, [windowSize.height]);
 
-  const { scrollY } = useViewportScroll() // measures how many pixels user has scrolled vertically
-  // as scrollY changes between 0px and the scrollable height, create a negative scroll value...
-  // ... based on current scroll position to translateY the document in a natural way
-  const transform = useTransform(scrollY, [0, pageHeight], [0, -pageHeight])
-  const physics = { damping: 15, mass: 0.27, stiffness: 55 } // easing of smooth scroll
-  const spring = useSpring(transform, physics) // apply easing to the negative scroll value
+  const setBodyHeight = () => {
+    document.body.style.height = `${
+      scrollingContainerRef.current.getBoundingClientRect().height
+    }px`;
+  };
+
+  // 5.
+  useEffect(() => {
+    requestAnimationFrame(() => smoothScrollingHandler());
+  }, []);
+
+  const smoothScrollingHandler = () => {
+    data.current = window.scrollY;
+    data.previous += (data.current - data.previous) * data.ease;
+    data.rounded = Math.round(data.previous * 100) / 100;
+
+    scrollingContainerRef.current.style.transform = `translateY(-${data.previous}px)`;
+
+    // Recursive call
+    requestAnimationFrame(() => smoothScrollingHandler());
+  };
 
   return (
-    <>
-      <motion.div
-        ref={scrollRef}
-        style={{ y: spring }} // translateY of scroll container using negative scroll value
-        className="scroll-container"
-      >
-        {children}
-      </motion.div>
-      {/* blank div that has a dynamic height based on the content's inherent height */}
-      {/* this is neccessary to allow the scroll container to scroll... */}
-      {/* ... using the browser's native scroll bar */}
-      <div style={{ height: pageHeight }} />
-    </>
-  )
-}
+    <div className='parent'>
+      <div ref={scrollingContainerRef}>{children}</div>
+    </div>
+  );
+};
 
-export default SmoothScroll
+export default SmoothScroll;

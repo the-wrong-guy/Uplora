@@ -4,22 +4,36 @@ import {
   Avatar,
   Typography,
   IconButton,
-  Menu,
-  MenuItem,
-  Fade,
+  Drawer,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  ListItemSecondaryAction,
 } from "@material-ui/core";
+import Skeleton from "@material-ui/lab/Skeleton";
 import { db } from "../../firebase";
 import styles from "./post.module.scss";
-import { useDispatch, useSelector } from "react-redux";
-
+import { useSelector } from "react-redux";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import Skeleton from "@material-ui/lab/Skeleton";
 import { PokemonSelector, PokemonCounter } from "@charkour/react-reactions";
 import moment from "moment";
 import cx from "classnames";
 import { v4 as uuid } from "uuid";
-
 import TextArea from "./textBox";
+import { makeStyles } from "@material-ui/core/styles";
+
+// Bottom Drawer Icons
+import DeleteIcon from "@material-ui/icons/Delete";
+import LinkIcon from "@material-ui/icons/Link";
+import ShareIcon from "@material-ui/icons/Share";
+
+const DrawerStyle = makeStyles({
+  paper: {
+    borderTopRightRadius: "15px",
+    borderTopLeftRadius: "15px",
+  },
+});
 
 function Post({
   postId,
@@ -31,24 +45,28 @@ function Post({
   postUserId,
   createdAt,
 }) {
+  const DrawerStyles = DrawerStyle();
   const GlobalTheme = useSelector((state) => state.CONFIG.GlobalTheme);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const [comments, setcomments] = useState([]);
   const [counter, setCounter] = useState([]);
   const [imageLoaded, setImageLoaded] = useState(false);
   const [emojiSelector, setEmojiSelector] = useState(false);
 
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
-
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+  const handleMoreVertIconClick = (event) => {
+    setDrawerOpen(true);
   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
-    console.log("Close");
-  };
+  const toggleDrawer = (anchor, e) => (event) => {
+    if (
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
+      return;
+    }
 
+    setDrawerOpen(e);
+  };
   const themeFuncForBorders = () => {
     if (GlobalTheme === "dark") {
       return "rgb(70 70 70)";
@@ -150,20 +168,37 @@ function Post({
           </div>
         </div>
         <div>
-          <IconButton onClick={handleClick} aria-label='options'>
+          <IconButton
+            onClick={handleMoreVertIconClick}
+            aria-label='user options'
+          >
             <MoreVertIcon />
-            <Menu
-              id='fade-menu'
-              anchorEl={anchorEl}
-              keepMounted
-              open={open}
-              onClose={handleClose}
-              TransitionComponent={Fade}
-            >
-              <MenuItem onClick={handleDeletePost}>Delete</MenuItem>
-              <MenuItem onClick={handleClose}>Share</MenuItem>
-            </Menu>
           </IconButton>
+          <Drawer
+            classes={{ paper: DrawerStyles.paper }}
+            anchor={"bottom"}
+            open={drawerOpen}
+            onClose={toggleDrawer("bottom", false)}
+            onOpen={toggleDrawer("bottom", true)}
+            transitionDuration={400}
+          >
+            <div style={{ width: "100vw", height: "30vh" }}>
+              <List>
+                <ListItem button>
+                  <ListItemIcon>
+                    <ShareIcon />
+                  </ListItemIcon>
+                  <ListItemText primary='Share' />
+                </ListItem>
+                <ListItem button>
+                  <ListItemIcon>
+                    <DeleteIcon />
+                  </ListItemIcon>
+                  <ListItemText primary='Delete' />
+                </ListItem>
+              </List>
+            </div>
+          </Drawer>
         </div>
       </div>
       <div
@@ -173,31 +208,39 @@ function Post({
           justifyContent: "center",
           background: "#fff",
           position: "relative",
+          minHeight: "210px",
+          maxHeight: "450px",
         }}
       >
         <img
-          className={styles.post_img}
           src={imageUrl}
           alt={imageUrl}
-          loading='lazy'
-          style={{
-            opacity: "0.1",
-            filter: "blur(4px)",
-          }}
           onLoad={() => setImageLoaded(true)}
+          style={{ display: "none" }}
         />
-        <img
-          className={styles.post_img}
-          src={imageUrl}
-          alt={imageUrl}
-          style={{
-            opacity: imageLoaded ? "1" : "0",
-            transition: "opacity ease-in-out 1s",
-            transitionDelay: "1000ms",
-            position: "absolute",
-            top: 0,
-          }}
-        />
+        {imageLoaded ? (
+          <img
+            className={styles.post_img}
+            src={imageUrl}
+            alt={imageUrl}
+            style={{
+              opacity: imageLoaded ? "1" : "0",
+              transition: "opacity ease-in-out 1s",
+              transitionDelay: "1000ms",
+            }}
+          />
+        ) : (
+          <Skeleton
+            style={{
+              width: "100%",
+              minHeight: "210px",
+              maxHeight: "450px",
+            }}
+            animation='wave'
+            variant='rect'
+          />
+        )}
+        <div></div>
       </div>
       {caption !== "" && (
         <div className={styles.post_footer}>

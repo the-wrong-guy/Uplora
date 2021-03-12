@@ -122,18 +122,19 @@ export default function Main() {
               loading...
             </Grid>
           )}
+
+          <Grid
+            item
+            xs={12}
+            sm={12}
+            md={12}
+            style={{ display: "flex", justifyContent: "center" }}
+          >
+            <Button onClick={loadMorePosts} variant='contained' color='default'>
+              Load More
+            </Button>
+          </Grid>
         </>
-        <Grid
-          item
-          xs={12}
-          sm={12}
-          md={12}
-          style={{ display: "flex", justifyContent: "center" }}
-        >
-          <Button onClick={loadMorePosts} variant='contained' color='default'>
-            Load More
-          </Button>
-        </Grid>
       </Grid>
       <Dialog
         open={open}
