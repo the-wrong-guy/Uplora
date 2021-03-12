@@ -27,6 +27,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import DeleteIcon from "@material-ui/icons/Delete";
 import LinkIcon from "@material-ui/icons/Link";
 import ShareIcon from "@material-ui/icons/Share";
+import DownloadIcon from "@material-ui/icons/GetApp";
 
 const DrawerStyle = makeStyles({
   paper: {
@@ -52,6 +53,7 @@ function Post({
   const [counter, setCounter] = useState([]);
   const [imageLoaded, setImageLoaded] = useState(false);
   const [emojiSelector, setEmojiSelector] = useState(false);
+  const [deleteError, setDeleteError] = useState(false);
 
   const handleMoreVertIconClick = (event) => {
     setDrawerOpen(true);
@@ -67,6 +69,12 @@ function Post({
 
     setDrawerOpen(e);
   };
+
+  const handleDownloadPostImg = () => {
+    console.log(imageUrl);
+  };
+
+  const handleSharePost = () => {};
   const themeFuncForBorders = () => {
     if (GlobalTheme === "dark") {
       return "rgb(70 70 70)";
@@ -74,6 +82,16 @@ function Post({
       return "rgb(240 240 240)";
     } else if (GlobalTheme === "remix") {
       return "rgb(194 181 255)";
+    }
+  };
+
+  const themeFuncForRectSkeleton = () => {
+    if (GlobalTheme === "dark") {
+      return "#595959";
+    } else if (GlobalTheme === "light") {
+      return "rgb(199 199 199 / 71%)";
+    } else if (GlobalTheme === "remix") {
+      return "rgb(111 142 228 / 71%)";
     }
   };
   useEffect(() => {
@@ -118,9 +136,12 @@ function Post({
         .doc(postId)
         .delete()
         .then(() => {
+          toggleDrawer("bottom", false);
           console.log("Document successfully deleted!");
+          setDeleteError(false);
         })
         .catch((error) => {
+          setDeleteError(true);
           console.error("Error removing document: ", error);
         });
     }
@@ -179,22 +200,32 @@ function Post({
             anchor={"bottom"}
             open={drawerOpen}
             onClose={toggleDrawer("bottom", false)}
-            onOpen={toggleDrawer("bottom", true)}
             transitionDuration={400}
           >
             <div style={{ width: "100vw", height: "30vh" }}>
               <List>
-                <ListItem button>
+                <ListItem button onClick={(event) => handleSharePost(event)}>
                   <ListItemIcon>
                     <ShareIcon />
                   </ListItemIcon>
                   <ListItemText primary='Share' />
                 </ListItem>
-                <ListItem button>
+                <ListItem button onClick={() => handleDownloadPostImg()}>
+                  <ListItemIcon>
+                    <DownloadIcon />
+                  </ListItemIcon>
+                  <ListItemText primary='Download' />
+                </ListItem>
+                <ListItem button onClick={() => handleDeletePost()}>
                   <ListItemIcon>
                     <DeleteIcon />
                   </ListItemIcon>
                   <ListItemText primary='Delete' />
+                  {deleteError && (
+                    <Typography variant='caption' color='error'>
+                      !Error
+                    </Typography>
+                  )}
                 </ListItem>
               </List>
             </div>
@@ -213,34 +244,28 @@ function Post({
         }}
       >
         <img
+          className={styles.post_img}
           src={imageUrl}
           alt={imageUrl}
           onLoad={() => setImageLoaded(true)}
-          style={{ display: "none" }}
+          style={{
+            opacity: imageLoaded ? "1" : "0",
+            transition: "opacity ease-in-out 1s",
+          }}
         />
-        {imageLoaded ? (
-          <img
-            className={styles.post_img}
-            src={imageUrl}
-            alt={imageUrl}
-            style={{
-              opacity: imageLoaded ? "1" : "0",
-              transition: "opacity ease-in-out 1s",
-              transitionDelay: "1000ms",
-            }}
-          />
-        ) : (
+        {!imageLoaded && (
           <Skeleton
             style={{
               width: "100%",
               minHeight: "210px",
               maxHeight: "450px",
+              background: `${themeFuncForRectSkeleton()}`,
+              position: "absolute",
             }}
             animation='wave'
             variant='rect'
           />
         )}
-        <div></div>
       </div>
       {caption !== "" && (
         <div className={styles.post_footer}>
@@ -263,7 +288,8 @@ function Post({
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          padding: "5px 10px",
+          padding: "0 10px",
+          borderTop: `1px solid ${themeFuncForBorders()}`,
         }}
       >
         {counter && (
