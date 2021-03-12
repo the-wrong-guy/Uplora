@@ -257,8 +257,7 @@ function Post({
           <Skeleton
             style={{
               width: "100%",
-              minHeight: "210px",
-              maxHeight: "450px",
+              height: "100%",
               background: `${themeFuncForRectSkeleton()}`,
               position: "absolute",
             }}
