@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Fab, Grid, Paper } from "@material-ui/core";
+import { Fab, Grid } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserInfo } from "../../Redux/Action/action";
 import Button from "@material-ui/core/Button";
@@ -8,6 +8,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import Slide from "@material-ui/core/Slide";
 import AddIcon from "@material-ui/icons/Add";
 import { auth, db } from "../../firebase";
+import { useHistory } from "react-router-dom";
 import Header from "../Header/header";
 import Post from "../Post/post";
 import ImageUpload from "../Upload/imageUplaod";
@@ -19,11 +20,26 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 export default function Main() {
+  const history = useHistory();
   const dispatch = useDispatch();
   const [posts, setPosts] = useState([]);
   const user = useSelector((state) => state.CONFIG.userInfo);
   const [latestDoc, setLatestDoc] = useState(null);
   const [hasMorePosts, setHasMorePosts] = useState(false);
+
+  //Checking for users
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((authUser) => {
+      if (authUser) {
+        dispatch(setUserInfo(authUser));
+        history.push("/home");
+      } else {
+        dispatch(setUserInfo(null));
+        history.push("/");
+      }
+    });
+    return unsubscribe;
+  });
 
   const [open, setOpen] = useState(false);
 

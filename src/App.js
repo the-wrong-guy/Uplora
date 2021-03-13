@@ -3,28 +3,15 @@ import "./App.css";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import { Route, Switch } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { setUserInfo } from "./Redux/Action/action";
-import { auth } from "./firebase";
+import { useSelector } from "react-redux";
+import Header from "./components/Header/header";
 import LoginPage from "./components/Login page/login";
 import MainPage from "./components/Main Page/main";
+import IndividualPostPage from "./components/Individual Post/individual_post_page";
 
 function App() {
-  const history = useHistory();
-  const dispatch = useDispatch();
   const GlobalTheme = useSelector((state) => state.CONFIG.GlobalTheme);
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((authUser) => {
-      if (authUser) {
-        dispatch(setUserInfo(authUser));
-        history.push("/home");
-      } else {
-        history.push("/");
-      }
-    });
-    return unsubscribe;
-  });
+
   const darkTheme = createMuiTheme({
     overrides: {
       MuiCard: {
@@ -48,6 +35,7 @@ function App() {
       },
     },
   });
+
   const lightTheme = createMuiTheme({
     overrides: {
       MuiCard: {
@@ -121,6 +109,7 @@ function App() {
         <Route path='/home'>
           <MainPage />
         </Route>
+        <Route path='/:id' children={<IndividualPostPage />} />
       </Switch>
     </ThemeProvider>
   );

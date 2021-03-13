@@ -142,7 +142,7 @@ function ImageUpload({ displayName, userId, displayPic }) {
             alt='uplaod loader'
           />
         ) : (
-          "Upload"
+          "Post"
         )}
       </Button>
     </div>

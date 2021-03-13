@@ -61,6 +61,7 @@ $post-border-color: rgb(240, 240, 240);
   font-family: "Roboto", "Helvetica", "Arial", sans-serif;
   font-weight: 400;
   letter-spacing: 0.03333em;
+  line-height: 20px;
 }
 
 .users_comments {
@@ -69,6 +70,7 @@ $post-border-color: rgb(240, 240, 240);
   overflow: hidden;
   gap: 3px;
   padding: 5px 10px;
+  word-break: break-word;
 }
 
 .post_footer {
@@ -76,7 +78,6 @@ $post-border-color: rgb(240, 240, 240);
   align-items: center;
   padding: 5px 10px;
 }
-
 
 .textBox::-webkit-scrollbar {
   width: 4px;

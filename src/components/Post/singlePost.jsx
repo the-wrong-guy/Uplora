@@ -55,7 +55,6 @@ function Post({
   const [imageLoaded, setImageLoaded] = useState(false);
   const [emojiSelector, setEmojiSelector] = useState(false);
   const [deleteError, setDeleteError] = useState(false);
-  const [copySuccess, setCopySuccess] = useState(false);
 
   const handleMoreVertIconClick = (event) => {
     setDrawerOpen(true);
@@ -76,6 +75,7 @@ function Post({
     console.log(imageUrl);
   };
 
+  const handleSharePost = () => {};
   const themeFuncForBorders = () => {
     if (GlobalTheme === "dark") {
       return "rgb(70 70 70)";
@@ -103,7 +103,6 @@ function Post({
         .doc(postId)
         .collection("comments")
         .orderBy("timestamp", "desc")
-        .limit(2)
         .onSnapshot((snapshot) => {
           setcomments(snapshot.docs.map((doc) => doc.data()));
         });
@@ -205,20 +204,12 @@ function Post({
           >
             <div style={{ width: "100vw", height: "30vh" }}>
               <List>
-                <CopyToClipboard
-                  text={`https://uplora.netlify.app/${postId}`}
-                  onCopy={() => setCopySuccess(true)}
-                >
+                <CopyToClipboard text={`https://uplora.netlify.app/${postId}`}>
                   <ListItem button>
                     <ListItemIcon>
                       <CopyIcon />
                     </ListItemIcon>
                     <ListItemText primary='Copy link' />
-                    {copySuccess && (
-                      <Typography variant='caption' color='initial'>
-                        Copies
-                      </Typography>
-                    )}
                   </ListItem>
                 </CopyToClipboard>
                 <ListItem button onClick={() => handleDownloadPostImg()}>
@@ -244,6 +235,14 @@ function Post({
                     </Typography>
                   )}
                 </ListItem>
+                <Link
+                  to={{
+                    pathname: `post/${postId}`,
+                    state: postId,
+                  }}
+                >
+                  Testing..........
+                </Link>
               </List>
             </div>
           </Drawer>
@@ -342,12 +341,19 @@ function Post({
         </div>
       </div>
 
+      <div style={{ borderTop: `1px solid ${themeFuncForBorders()}` }}>
+        <div style={{ display: "flex", flex: "1" }}>
+          <TextArea postId={postId} />
+        </div>
+      </div>
+
       {comments.length > 0 && (
         <div
           style={{
             position: "relative",
             width: "100%",
             borderTop: `1px solid ${themeFuncForBorders()}`,
+            padding: "5px 0",
           }}
         >
           {comments.map((comment) => (
@@ -387,36 +393,8 @@ function Post({
               </span>
             </div>
           ))}
-
-          {comments.length === 2 && (
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "flex-start",
-              }}
-            >
-              <Link
-                style={{
-                  textDecoration: "none",
-                  marginLeft: "10px",
-                  color: "inherit",
-                }}
-                to={{
-                  pathname: `/${postId}`,
-                }}
-              >
-                view more comments...
-              </Link>
-            </div>
-          )}
         </div>
       )}
-
-      <div style={{ borderTop: `1px solid ${themeFuncForBorders()}` }}>
-        <div style={{ display: "flex", flex: "1" }}>
-          <TextArea postId={postId} />
-        </div>
-      </div>
     </Paper>
   );
 }
