@@ -178,7 +178,7 @@ function Post({
     <Paper elevation={15} className={cx(styles.paper)}>
       <Helmet>
         {/*Primary Meta Tags*/}
-        <title>Upora — Preview, Edit and Generate</title>
+        <title>Uplora</title>
         <meta name='title' content='Uplora' />
         <meta name='description' content={`${caption}`} />
 
