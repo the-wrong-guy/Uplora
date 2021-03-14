@@ -52,19 +52,19 @@ export default function IndividualPost() {
         <meta property='og:type' content='website' />
         <meta property='og:url' content='https://uplora.netlify.app' />
         <meta property='og:title' content='Uplora' />
-        <meta property='og:description' content={`${post.caption}`} />
+        <meta property='og:description' content={`${post?.caption}`} />
         <meta
           property='og:image'
           itemprop='image'
-          content={`${post.imageUrl}`}
+          content={`${post?.imageUrl}`}
         />
 
         {/*Twitter*/}
         <meta property='twitter:card' content='summary_large_image' />
         <meta property='twitter:url' content='https://uplora.netlify.app' />
         <meta property='twitter:title' content='Uplora' />
-        <meta property='twitter:description' content={`${post.caption}`} />
-        <meta property='twitter:image' content={`${post.imageUrl}`} />
+        <meta property='twitter:description' content={`${post?.caption}`} />
+        <meta property='twitter:image' content={`${post?.imageUrl}`} />
       </Helmet>
       {user ? (
         <>
