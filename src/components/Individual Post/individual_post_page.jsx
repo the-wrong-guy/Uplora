@@ -8,7 +8,7 @@ import Header from "../Header/header";
 import SinglePostCard from "../Post/singlePost";
 import { Helmet } from "react-helmet";
 export default function IndividualPost() {
-  const [post, setPost] = useState(null);
+  const [post, setPost] = useState([]);
   const [user, setUser] = useState(null);
   const history = useHistory();
   const dispatch = useDispatch();
@@ -28,12 +28,10 @@ export default function IndividualPost() {
   }, []);
 
   useEffect(() => {
-    console.log(id);
     const unsub = db
       .collection("posts")
       .doc(id)
       .onSnapshot((doc) => {
-        console.log("Current data: ", doc.data());
         setPost(doc.data());
       });
     return unsub;

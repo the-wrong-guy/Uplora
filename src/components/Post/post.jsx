@@ -25,13 +25,17 @@ import TextArea from "./textBox";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 import { CopyToClipboard } from "react-copy-to-clipboard";
-import { Helmet } from "react-helmet";
 
 // Bottom Drawer Icons
 import DeleteIcon from "@material-ui/icons/Delete";
 import CopyIcon from "@material-ui/icons/FileCopy";
 import ReportIcon from "@material-ui/icons/Report";
 import DownloadIcon from "@material-ui/icons/GetApp";
+
+// Testing
+const fs = require("fs");
+const path = require("path");
+const axios = require("axios").default;
 
 const DrawerStyle = makeStyles({
   paper: {
@@ -53,6 +57,7 @@ function Post({
   const DrawerStyles = DrawerStyle();
   const GlobalTheme = useSelector((state) => state.CONFIG.GlobalTheme);
   const [SnackBarOpen, setSnackBarOpen] = useState(false);
+  const [ReportSnackBarOpen, setReportSnackBarOpen] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [comments, setcomments] = useState([]);
   const [counter, setCounter] = useState([]);
@@ -70,6 +75,7 @@ function Post({
     }
 
     setSnackBarOpen(false);
+    setReportSnackBarOpen(false);
   };
 
   const toggleDrawer = (anchor, e) => (event) => {
@@ -83,8 +89,24 @@ function Post({
     setDrawerOpen(e);
   };
 
-  const handleDownloadPostImg = () => {
-    console.log(imageUrl);
+  const handleDownloadPostImg = async (fileUrl, downloadFolder) => {
+    // Get the file name
+    const fileName = path.basename(fileUrl);
+
+    // The path of the downloaded file on our machine
+    const localFilePath = path.resolve(__dirname, downloadFolder, fileName);
+    try {
+      const response = await axios({
+        method: "GET",
+        url: fileUrl,
+        responseType: "stream",
+      });
+
+      await response.data.pipe(fs.createWriteStream(localFilePath));
+      console.log("Successfully downloaded file!");
+    } catch (err) {
+      throw new Error(err);
+    }
   };
 
   const handleShareLink = () => {
@@ -108,6 +130,16 @@ function Post({
       return "rgb(199 199 199 / 71%)";
     } else if (GlobalTheme === "remix") {
       return "rgb(111 142 228 / 71%)";
+    }
+  };
+
+  const themeFuncForViewMore = () => {
+    if (GlobalTheme === "dark") {
+      return "#737373";
+    } else if (GlobalTheme === "light") {
+      return "#cccccc";
+    } else if (GlobalTheme === "remix") {
+      return "rgb(255 150 59)";
     }
   };
   useEffect(() => {
@@ -163,6 +195,26 @@ function Post({
     }
   };
 
+  const handleReportPost = () => {
+    if (user) {
+      try {
+        db.collection("reported_post")
+          .doc(postId)
+          .collection("reports")
+          .doc(user.uid)
+          .set({
+            userName: user.displayName,
+            userId: user.uid,
+            postId: postId,
+          });
+        setReportSnackBarOpen(true);
+        setDrawerOpen(false);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
   const onReactionSelect = (e) => {
     if (user) {
       db.collection("posts")
@@ -189,6 +241,19 @@ function Post({
         autoHideDuration={1800}
         onClose={handleSnackBarClose}
         message='Copied'
+        disableWindowBlurListener={true}
+      />
+      <Snackbar
+        component='span'
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "center",
+        }}
+        open={ReportSnackBarOpen}
+        autoHideDuration={1800}
+        onClose={handleSnackBarClose}
+        message='Reported!'
+        disableWindowBlurListener={true}
       />
       <div className={styles.post_header}>
         <div className={styles.post_header_profile}>
@@ -242,29 +307,34 @@ function Post({
                     <ListItemText primary='Copy link' />
                   </ListItem>
                 </CopyToClipboard>
-                <ListItem button onClick={() => handleDownloadPostImg()}>
+                <ListItem
+                  button
+                  onClick={() => handleDownloadPostImg(imageUrl, "download")}
+                >
                   <ListItemIcon>
                     <DownloadIcon />
                   </ListItemIcon>
                   <ListItemText primary='Download' />
                 </ListItem>
-                <ListItem button onClick={() => handleDownloadPostImg()}>
+                <ListItem button onClick={() => handleReportPost()}>
                   <ListItemIcon>
                     <ReportIcon />
                   </ListItemIcon>
                   <ListItemText primary='Report' />
                 </ListItem>
-                <ListItem button onClick={() => handleDeletePost()}>
-                  <ListItemIcon>
-                    <DeleteIcon />
-                  </ListItemIcon>
-                  <ListItemText primary='Delete' />
-                  {deleteError && (
-                    <Typography variant='caption' color='error'>
-                      !Error
-                    </Typography>
-                  )}
-                </ListItem>
+                {user.uid === postUserId && (
+                  <ListItem button onClick={() => handleDeletePost()}>
+                    <ListItemIcon>
+                      <DeleteIcon />
+                    </ListItemIcon>
+                    <ListItemText primary='Delete' />
+                    {deleteError && (
+                      <Typography variant='caption' color='error'>
+                        !Error
+                      </Typography>
+                    )}
+                  </ListItem>
+                )}
               </List>
             </div>
           </Drawer>
@@ -338,7 +408,7 @@ function Post({
           />
         )}
         <div style={{ float: "right", display: "flex", position: "relative" }}>
-          <div style={{ position: "relative" }}>
+          <div style={{ position: "relative", overflowX: "hidden" }}>
             <div
               className={
                 emojiSelector
@@ -404,7 +474,24 @@ function Post({
                 className={styles.posted_comments}
                 color='initial'
               >
-                {comment.text}
+                {comment.text.length > 60 ? (
+                  <>
+                    {`${comment.text.substring(0, 60)}`}
+                    <Link
+                      style={{
+                        textDecoration: "none",
+                        color: `${themeFuncForViewMore()}`,
+                      }}
+                      to={{
+                        pathname: `/${postId}`,
+                      }}
+                    >
+                      ...Read more
+                    </Link>
+                  </>
+                ) : (
+                  comment.text
+                )}
               </span>
             </div>
           ))}
@@ -420,7 +507,7 @@ function Post({
                 style={{
                   textDecoration: "none",
                   marginLeft: "10px",
-                  color: "inherit",
+                  color: `${themeFuncForViewMore()}`,
                 }}
                 to={{
                   pathname: `/${postId}`,

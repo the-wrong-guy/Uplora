@@ -186,6 +186,7 @@ function Post({
         autoHideDuration={1800}
         onClose={handleSnackBarClose}
         message='Copied'
+        disableWindowBlurListener={true}
       />
       <div className={styles.post_header}>
         <div className={styles.post_header_profile}>
@@ -251,17 +252,19 @@ function Post({
                   </ListItemIcon>
                   <ListItemText primary='Report' />
                 </ListItem>
-                <ListItem button onClick={() => handleDeletePost()}>
-                  <ListItemIcon>
-                    <DeleteIcon />
-                  </ListItemIcon>
-                  <ListItemText primary='Delete' />
-                  {deleteError && (
-                    <Typography variant='caption' color='error'>
-                      !Error
-                    </Typography>
-                  )}
-                </ListItem>
+                {user.uid === postUserId && (
+                  <ListItem button onClick={() => handleDeletePost()}>
+                    <ListItemIcon>
+                      <DeleteIcon />
+                    </ListItemIcon>
+                    <ListItemText primary='Delete' />
+                    {deleteError && (
+                      <Typography variant='caption' color='error'>
+                        !Error
+                      </Typography>
+                    )}
+                  </ListItem>
+                )}
               </List>
             </div>
           </Drawer>

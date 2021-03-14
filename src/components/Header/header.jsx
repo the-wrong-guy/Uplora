@@ -30,6 +30,10 @@ import InstagramIcon from "@material-ui/icons/Instagram";
 import GitHubIcon from "@material-ui/icons/GitHub";
 import RedditIcon from "@material-ui/icons/Reddit";
 
+//logo
+import UploraLogo1 from "./U-removebg-preview (2).png";
+import UploraLogo2 from "./Untitled_design__18_-removebg-preview.png";
+import UploraLogo3 from "./Untitled_design__20_-removebg-preview.png";
 function Header(props) {
   const history = useHistory();
   const dispatch = useDispatch();
@@ -76,26 +80,23 @@ function Header(props) {
       <CssBaseline />
       <AppBar color='inherit'>
         <Toolbar className={styles.toolbar}>
-          <div>
-            <Typography className={styles.header} variant='h6'>
-              Uplora
-            </Typography>
-          </div>
+          <img
+            src={UploraLogo3}
+            style={{ height: "45px" }}
+            alt='uplora logo'
+            onClick={() => history.push("/home")}
+          />
+
           {user && (
-            <div className={styles.logout}>
-              <IconButton
-                aria-label='menu toggle'
-                onClick={() => setOpen(!open)}
-              >
-                <Fab size='small' color='default' aria-label=''>
-                  <img
-                    className={styles.displayPic}
-                    src={user.photoURL}
-                    alt='display pic'
-                  />
-                </Fab>
-              </IconButton>
-            </div>
+            <IconButton aria-label='menu toggle' onClick={() => setOpen(!open)}>
+              <Fab size='small' color='default' aria-label=''>
+                <img
+                  className={styles.displayPic}
+                  src={user.photoURL}
+                  alt='display pic'
+                />
+              </Fab>
+            </IconButton>
           )}
         </Toolbar>
         <SwipeableDrawer
