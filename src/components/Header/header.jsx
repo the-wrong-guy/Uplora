@@ -80,12 +80,15 @@ function Header(props) {
       <CssBaseline />
       <AppBar color='inherit'>
         <Toolbar className={styles.toolbar}>
-          <img
-            src={UploraLogo3}
-            style={{ height: "45px" }}
-            alt='uplora logo'
-            onClick={() => history.push("/home")}
-          />
+          <div>
+            <img
+              src={UploraLogo3}
+              style={{ height: "34px" }}
+              alt='uplora logo'
+              onClick={() => history.push("/home")}
+            />
+            <span className={styles.header}>Uplora</span>
+          </div>
 
           {user && (
             <IconButton aria-label='menu toggle' onClick={() => setOpen(!open)}>
