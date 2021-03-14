@@ -45,7 +45,10 @@ export default function IndividualPost() {
         {/*Primary Meta Tags*/}
         <title>Uplora</title>
         <meta name='title' content='Uplora' />
-        <meta name='description' content={`${post?.caption}`} />
+        <meta
+          name='description'
+          content={`${post?.displayName} posted on Uplora: "${post?.caption}"`}
+        />
         <link rel='canonical' href='https://uplora.netlify.app' />
 
         {/*Open Graph / Facebook*/}
