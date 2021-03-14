@@ -9,6 +9,8 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  Button,
+  Snackbar,
 } from "@material-ui/core";
 import Skeleton from "@material-ui/lab/Skeleton";
 import { db } from "../../firebase";
@@ -23,6 +25,7 @@ import TextArea from "./textBox";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 import { CopyToClipboard } from "react-copy-to-clipboard";
+import { Helmet } from "react-helmet";
 
 // Bottom Drawer Icons
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -49,16 +52,24 @@ function Post({
 }) {
   const DrawerStyles = DrawerStyle();
   const GlobalTheme = useSelector((state) => state.CONFIG.GlobalTheme);
+  const [SnackBarOpen, setSnackBarOpen] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [comments, setcomments] = useState([]);
   const [counter, setCounter] = useState([]);
   const [imageLoaded, setImageLoaded] = useState(false);
   const [emojiSelector, setEmojiSelector] = useState(false);
   const [deleteError, setDeleteError] = useState(false);
-  const [copySuccess, setCopySuccess] = useState(false);
 
   const handleMoreVertIconClick = (event) => {
     setDrawerOpen(true);
+  };
+
+  const handleSnackBarClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setSnackBarOpen(false);
   };
 
   const toggleDrawer = (anchor, e) => (event) => {
@@ -76,6 +87,10 @@ function Post({
     console.log(imageUrl);
   };
 
+  const handleShareLink = () => {
+    setSnackBarOpen(true);
+    setDrawerOpen(false);
+  };
   const themeFuncForBorders = () => {
     if (GlobalTheme === "dark") {
       return "rgb(70 70 70)";
@@ -164,6 +179,52 @@ function Post({
 
   return (
     <Paper elevation={15} className={cx(styles.paper)}>
+      <Helmet>
+        {/*Primary Meta Tags*/}
+        <title>Upora — Preview, Edit and Generate</title>
+        <meta name='title' content='Uplora' />
+        <meta name='description' content={`${caption}`} />
+
+        {/*Open Graph / Facebook*/}
+        <meta property='og:type' content='website' />
+        <meta
+          property='og:url'
+          content={`https://uplora.netlify.app/${postId}`}
+        />
+        <meta
+          property='og:title'
+          content='Uplora'
+        />
+        <meta property='og:description' content={`${caption}`} />
+        <meta property='og:image' itemprop="image" content={`${imageUrl}`} />
+
+        {/*Twitter*/}
+        <meta property='twitter:card' content='summary_large_image' />
+        <meta
+          property='twitter:url'
+          content={`https://uplora.netlify.app/${postId}`}
+        />
+        <meta
+          property='twitter:title'
+          content='Uplora'
+        />
+        <meta
+          property='twitter:description'
+          content={`${caption}`}
+        />
+        <meta property='twitter:image' content={`${imageUrl}`} />
+      </Helmet>
+      <Snackbar
+        component='span'
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "center",
+        }}
+        open={SnackBarOpen}
+        autoHideDuration={1800}
+        onClose={handleSnackBarClose}
+        message='Copied'
+      />
       <div className={styles.post_header}>
         <div className={styles.post_header_profile}>
           {displayPic ? (
@@ -207,18 +268,13 @@ function Post({
               <List>
                 <CopyToClipboard
                   text={`https://uplora.netlify.app/${postId}`}
-                  onCopy={() => setCopySuccess(true)}
+                  onCopy={() => handleShareLink()}
                 >
                   <ListItem button>
                     <ListItemIcon>
                       <CopyIcon />
                     </ListItemIcon>
                     <ListItemText primary='Copy link' />
-                    {copySuccess && (
-                      <Typography variant='caption' color='initial'>
-                        Copies
-                      </Typography>
-                    )}
                   </ListItem>
                 </CopyToClipboard>
                 <ListItem button onClick={() => handleDownloadPostImg()}>
@@ -317,7 +373,7 @@ function Post({
           />
         )}
         <div style={{ float: "right", display: "flex", position: "relative" }}>
-          <div style={{ overflowX: "hidden", position: "relative" }}>
+          <div style={{ position: "relative" }}>
             <div
               className={
                 emojiSelector

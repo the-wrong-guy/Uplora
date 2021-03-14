@@ -35,8 +35,6 @@ export default function IndividualPost() {
         console.log("Current data: ", doc.data());
         setPost(doc.data());
       });
-
-    console.log(post);
     return unsub;
   }, []);
 

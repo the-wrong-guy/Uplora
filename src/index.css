@@ -21,3 +21,24 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+/* Material UI */
+.MuiSnackbarContent-root {
+  flex-grow: 0 !important;
+  display: flex !important;
+  justify-content: center !important;
+}
+.MuiSnackbarContent-message {
+  padding: 0 !important;
+}
+
+.MuiSnackbar-anchorOriginTopCenter {
+  top: 45px !important;
+}
+
+@media (min-width: 600px) {
+  .MuiSnackbarContent-root {
+    flex-grow: initial;
+    min-width: 100px !important;
+  }
+}
