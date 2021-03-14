@@ -176,32 +176,6 @@ function Post({
 
   return (
     <Paper elevation={15} className={cx(styles.paper)}>
-      <Helmet>
-        {/*Primary Meta Tags*/}
-        <title>Uplora</title>
-        <meta name='title' content='Uplora' />
-        <meta name='description' content={`${caption}`} />
-
-        {/*Open Graph / Facebook*/}
-        <meta property='og:type' content='website' />
-        <meta
-          property='og:url'
-          content={`https://uplora.netlify.app/${postId}`}
-        />
-        <meta property='og:title' content='Uplora' />
-        <meta property='og:description' content={`${caption}`} />
-        <meta property='og:image' itemprop='image' content={`${imageUrl}`} />
-
-        {/*Twitter*/}
-        <meta property='twitter:card' content='summary_large_image' />
-        <meta
-          property='twitter:url'
-          content={`https://uplora.netlify.app/${postId}`}
-        />
-        <meta property='twitter:title' content='Uplora' />
-        <meta property='twitter:description' content={`${caption}`} />
-        <meta property='twitter:image' content={`${imageUrl}`} />
-      </Helmet>
       <Snackbar
         component='span'
         anchorOrigin={{
