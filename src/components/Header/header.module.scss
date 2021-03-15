@@ -11,6 +11,7 @@
 
 .header {
   font-family: "Covered By Your Grace", cursive;
+  font-size: 1.5rem;
 }
 
 .toolbar {
@@ -123,6 +124,9 @@
 }
 
 @media only screen and (max-width: 600px) {
+  .header {
+    font-size: 1rem;
+  }
   .list_cards {
     width: 90vw;
   }
