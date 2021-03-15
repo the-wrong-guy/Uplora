@@ -86,7 +86,7 @@ export default function IndividualPost() {
                 imageUrl={post.imageUrl}
                 user={user}
                 postUserId={post.userId}
-                createdAt={post.timeStamp}
+                createdAt={post.timestamp}
               />
             ) : (
               "loading"

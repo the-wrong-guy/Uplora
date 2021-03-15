@@ -31,8 +31,6 @@ import GitHubIcon from "@material-ui/icons/GitHub";
 import RedditIcon from "@material-ui/icons/Reddit";
 
 //logo
-import UploraLogo1 from "./U-removebg-preview (2).png";
-import UploraLogo2 from "./Untitled_design__18_-removebg-preview.png";
 import UploraLogo3 from "./Untitled_design__20_-removebg-preview.png";
 function Header(props) {
   const history = useHistory();

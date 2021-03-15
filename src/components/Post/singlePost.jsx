@@ -58,7 +58,7 @@ function Post({
   const [imageLoaded, setImageLoaded] = useState(false);
   const [emojiSelector, setEmojiSelector] = useState(false);
   const [deleteError, setDeleteError] = useState(false);
-
+  console.log(createdAt);
   const handleMoreVertIconClick = (event) => {
     setDrawerOpen(true);
   };
