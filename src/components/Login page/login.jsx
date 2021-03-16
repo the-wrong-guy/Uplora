@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Typography, Button } from "@material-ui/core";
+import { Typography, Button, CssBaseline } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setGlobalTheme } from "../../Redux/Action/action";
 import { auth, googleProvider } from "../../firebase";
 import styles from "./lg.module.scss";
 import "./login.css";
 
 export default function Login() {
+  const dispatch = useDispatch();
   const history = useHistory();
   const [signInLoading, setSignInLoading] = useState(false);
   const handleLogin = async () => {
@@ -35,8 +38,22 @@ export default function Login() {
     return unsubscribe;
   }, []);
 
+  useEffect(() => {
+    function checkingTheme() {
+      const currentTheme = localStorage.getItem("Uplora_Theme");
+      if (currentTheme) {
+        dispatch(setGlobalTheme(currentTheme));
+      }
+    }
+
+    checkingTheme();
+
+    return checkingTheme();
+  }, []);
+
   return (
     <div className='main-container'>
+      <CssBaseline />
       <h2 className={styles.header}>Welcome To Pixex</h2>
       <div className='general-container'>
         <div className='shadow'></div>

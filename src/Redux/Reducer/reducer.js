@@ -3,7 +3,7 @@ import actionTypes from "../Action/action.types";
 const intialState = {
   drawerOpen: false,
   userInfo: null,
-  GlobalTheme: "light",
+  GlobalTheme: "dark",
 };
 const CONFIG = (state = intialState, action) => {
   switch (action.type) {

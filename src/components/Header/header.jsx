@@ -17,6 +17,9 @@ import { auth } from "../../firebase";
 import LogoutIcon from "@material-ui/icons/ExitToApp";
 import cx from "classnames";
 
+//Profile pic Icon
+import PersonIcon from "@material-ui/icons/Person";
+
 //Theme Icons
 import DarkThemeIcon from "@material-ui/icons/NightsStay";
 import LightThemeIcon from "@material-ui/icons/WbSunny";
@@ -37,7 +40,7 @@ function Header(props) {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.CONFIG.userInfo);
   const [open, setOpen] = useState(false);
-  const [Theme, setTheme] = useState("light");
+  const [Theme, setTheme] = useState("dark");
 
   const handleSignOut = () => {
     auth.signOut();
@@ -45,7 +48,7 @@ function Header(props) {
   };
   useEffect(() => {
     function checkingTheme() {
-      const currentTheme = localStorage.getItem("Theme");
+      const currentTheme = localStorage.getItem("Uplora_Theme");
       if (currentTheme) {
         setTheme(currentTheme);
         dispatch(setGlobalTheme(currentTheme));
@@ -60,7 +63,7 @@ function Header(props) {
   const handleToggleTheme = (e) => {
     setTheme(e);
     dispatch(setGlobalTheme(e));
-    localStorage.setItem("Theme", e);
+    localStorage.setItem("Uplora_Theme", e);
   };
   const toggleDrawer = (anchor, e) => (event) => {
     if (
@@ -78,7 +81,7 @@ function Header(props) {
       <CssBaseline />
       <AppBar color='inherit'>
         <Toolbar className={styles.toolbar}>
-          <div>
+          <div style={{ cursor: "pointer" }}>
             <img
               src={UploraLogo3}
               style={{ height: "34px" }}
@@ -88,17 +91,19 @@ function Header(props) {
             <span className={styles.header}>Uplora</span>
           </div>
 
-          {user && (
-            <IconButton aria-label='menu toggle' onClick={() => setOpen(!open)}>
-              <Fab size='small' color='default' aria-label=''>
+          <IconButton aria-label='menu toggle' onClick={() => setOpen(!open)}>
+            <Fab size='small' color='default' aria-label=''>
+              {user && user.photoURL ? (
                 <img
                   className={styles.displayPic}
                   src={user.photoURL}
                   alt='display pic'
                 />
-              </Fab>
-            </IconButton>
-          )}
+              ) : (
+                <PersonIcon style={{ height: "40px" }} />
+              )}
+            </Fab>
+          </IconButton>
         </Toolbar>
         <SwipeableDrawer
           anchor={"left"}

@@ -11,6 +11,7 @@ $post-border-color: rgb(240, 240, 240);
   height: auto;
   margin: 5px 0;
   border-radius: 5px !important;
+  // overflow-x: hidden;
 }
 
 .paper_dark {
@@ -55,6 +56,8 @@ $post-border-color: rgb(240, 240, 240);
   // border-bottom: $post-border-color-size;
 }
 
+// display: "flex", alignItems: "center", gap: "4px"
+
 .posted_comments {
   // overflow-wrap: break-word;
   font-size: 0.75rem;
@@ -62,13 +65,13 @@ $post-border-color: rgb(240, 240, 240);
   font-weight: 400;
   letter-spacing: 0.03333em;
   line-height: 20px;
+  word-break: break-word;
 }
 
 .users_comments {
   display: flex;
-  align-items: flex-start;
-  overflow: hidden;
   gap: 3px;
+  height: auto;
   padding: 5px 10px;
   word-break: break-word;
 }
@@ -100,6 +103,7 @@ $post-border-color: rgb(240, 240, 240);
   border-radius: 50%;
   width: 20px;
   height: 20px;
+  margin-right: 4px;
 }
 
 @media screen and (max-width: 600px) {
@@ -122,60 +126,38 @@ $post-border-color: rgb(240, 240, 240);
 }
 
 // Emoji Selectors
+.PokemonSelector_Pdiv_Idle {
+  overflow: hidden;
+}
+
 .PokemonSelector_Idle {
-  // -webkit-animation: slide-out 0.5s ease-in-out;
-  // animation: slide-out 0.5s ease-in-out;
-  // -webkit-transform: translateX(100%);
+  transition: transform 500ms ease-in-out;
+  -webkit-transform: translateX(100%);
   transform: translateX(100%);
-  opacity: 0;
-  pointer-events: none;
+}
+
+.PokemonSelector_Pdiv_Active {
+  overflow: hidden;
+}
+
+.PokemonSelector_Pdiv_Active:hover {
+  overflow: visible;
+}
+
+.PokemonSelector_Pdiv_Active:focus {
+  overflow: visible;
 }
 
 .PokemonSelector_Active {
-  -webkit-animation: slide-in 0.5s ease-in-out;
-  animation: slide-in 0.5s ease-in-out;
+  transition: transform 500ms ease-in-out;
+  -webkit-transform: translateX(0);
+  transform: translateX(0);
 }
 
-@-webkit-keyframes slide-in {
-  0% {
-    opacity: 0;
-    -webkit-transform: translateX(100%);
-  }
-  100% {
-    opacity: 1;
-    -webkit-transform: translateX(0);
-  }
-}
+//Single Post Only
 
-@keyframes slide-in {
-  0% {
-    opacity: 0;
-    -webkit-transform: translateX(100%);
-  }
-  100% {
-    opacity: 1;
-    -webkit-transform: translateX(0);
-  }
-}
-
-@-webkit-keyframes slide-out {
-  0% {
-    opacity: 1;
-    -webkit-transform: translateX(0);
-  }
-  100% {
-    opacity: 0;
-    -webkit-transform: translateX(100%);
-  }
-}
-
-@keyframes slide-out {
-  0% {
-    opacity: 1;
-    -webkit-transform: translateX(0);
-  }
-  100% {
-    opacity: 0;
-    -webkit-transform: translateX(100%);
-  }
+.noMorePost_SP {
+  font-family: "Mansalva", cursive !important;
+  font-size: 1.5rem !important;
+  text-align: center !important;
 }

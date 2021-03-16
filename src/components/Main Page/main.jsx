@@ -53,7 +53,8 @@ export default function Main() {
 
   const test = [];
   useEffect(() => {
-    db.collection("posts")
+    const unsub = db
+      .collection("posts")
       .orderBy("timestamp", "desc")
       .limit(15)
       .onSnapshot((snapShot) => {
@@ -63,7 +64,7 @@ export default function Main() {
         setLatestDoc(snapShot.docs[snapShot.docs.length - 1]);
       });
 
-    // return unsub;
+    return unsub;
   }, []);
 
   // debugger;

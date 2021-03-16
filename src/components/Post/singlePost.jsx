@@ -10,6 +10,9 @@ import {
   ListItemIcon,
   ListItemText,
   Snackbar,
+  Dialog,
+  DialogContent,
+  useMediaQuery,
 } from "@material-ui/core";
 import Skeleton from "@material-ui/lab/Skeleton";
 import { db } from "../../firebase";
@@ -22,15 +25,18 @@ import cx from "classnames";
 import { v4 as uuid } from "uuid";
 import TextArea from "./textBox";
 import { makeStyles } from "@material-ui/core/styles";
-import { Link } from "react-router-dom";
 import { CopyToClipboard } from "react-copy-to-clipboard";
-import { Helmet } from "react-helmet";
+import { useTheme } from "@material-ui/core/styles";
+import PokeEmoji from "./pokeEmoji.tsx";
 
 // Bottom Drawer Icons
 import DeleteIcon from "@material-ui/icons/Delete";
 import CopyIcon from "@material-ui/icons/FileCopy";
 import ReportIcon from "@material-ui/icons/Report";
 import DownloadIcon from "@material-ui/icons/GetApp";
+
+// Reaction Dialog Icons
+import CloseIcon from "@material-ui/icons/Close";
 
 const DrawerStyle = makeStyles({
   paper: {
@@ -58,9 +64,22 @@ function Post({
   const [imageLoaded, setImageLoaded] = useState(false);
   const [emojiSelector, setEmojiSelector] = useState(false);
   const [deleteError, setDeleteError] = useState(false);
-  console.log(createdAt);
+  const [ReactionsDialogBox, setReactionsDialogBox] = useState(false);
+
   const handleMoreVertIconClick = (event) => {
     setDrawerOpen(true);
+  };
+
+  // Reaction DialogBox (Counter)
+  const theme = useTheme();
+  const DialogBoxFullWidth = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const handleReactionDialogBoxClose = () => {
+    setReactionsDialogBox(false);
+  };
+
+  const handleCountersClick = () => {
+    setReactionsDialogBox(true);
   };
 
   const handleSnackBarClose = (event, reason) => {
@@ -175,7 +194,75 @@ function Post({
   };
 
   return (
-    <Paper elevation={15} className={cx(styles.paper)}>
+    <Paper
+      elevation={15}
+      style={{ marginBottom: "60px" }}
+      className={cx(styles.paper)}
+    >
+      <Dialog
+        maxWidth={"md"}
+        fullWidth={DialogBoxFullWidth}
+        open={ReactionsDialogBox}
+        scroll={"paper"}
+        onClose={handleReactionDialogBoxClose}
+        transitionDuration={900}
+      >
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            padding: "3px 5px",
+          }}
+        >
+          <Typography
+            variant='body1'
+            color='initial'
+            style={{ paddingLeft: "10px" }}
+          >
+            All
+          </Typography>
+          <IconButton
+            aria-label='close dialogbox'
+            onClick={() => setReactionsDialogBox(false)}
+            style={{}}
+          >
+            <CloseIcon />
+          </IconButton>
+        </div>
+        <DialogContent dividers={true}>
+          {counter.map((data) => {
+            return (
+              <div
+                style={{
+                  display: "flex",
+                  width: "100%",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  margin: "4px 0",
+                }}
+                key={uuid()}
+              >
+                <div
+                  style={{ display: "flex", alignItems: "center", gap: "4px" }}
+                >
+                  <img
+                    src={data.userDisplayPic}
+                    alt='user display pic'
+                    style={{
+                      height: "45px",
+                      borderRadius: "50%",
+                      cursor: "none",
+                    }}
+                  />
+                  <div>{data.by}</div>
+                </div>
+                <PokeEmoji emoji={data.emoji} />
+              </div>
+            );
+          })}
+        </DialogContent>
+      </Dialog>
       <Snackbar
         component='span'
         anchorOrigin={{
@@ -205,12 +292,21 @@ function Post({
             />
           )}
           <div style={{ display: "grid", marginLeft: "8px" }}>
-            <Typography color='textPrimary' className={styles.username}>
-              {displayName && displayName}
-            </Typography>
-            <Typography color='textSecondary' style={{ fontSize: "11px" }}>
-              {createdAt && moment(createdAt.toDate()).fromNow()}
-            </Typography>
+            {displayName ? (
+              <Typography color='textPrimary' className={styles.username}>
+                {displayName}
+              </Typography>
+            ) : (
+              <Skeleton animation='wave' height={10} width='100px' />
+            )}
+
+            {createdAt ? (
+              <Typography color='textSecondary' style={{ fontSize: "11px" }}>
+                {moment(createdAt.toDate()).fromNow()}
+              </Typography>
+            ) : (
+              <Skeleton animation='wave' height={10} width='50px' />
+            )}
           </div>
         </div>
         <div>
@@ -335,10 +431,18 @@ function Post({
             user={user.displayName}
             bg='lightgray'
             alwaysShowOthers={false}
+            onClick={() => handleCountersClick()}
           />
         )}
         <div style={{ float: "right", display: "flex", position: "relative" }}>
-          <div style={{ overflowX: "hidden", position: "relative" }}>
+          <div
+            style={{ position: "relative" }}
+            className={
+              emojiSelector
+                ? styles.PokemonSelector_Pdiv_Active
+                : styles.PokemonSelector_Pdiv_Idle
+            }
+          >
             <div
               className={
                 emojiSelector
@@ -377,44 +481,69 @@ function Post({
             borderTop: `1px solid ${themeFuncForBorders()}`,
             padding: "5px 0",
           }}
+          key={uuid()}
         >
           {comments.map((comment) => (
-            <div
-              style={{ position: "relative", width: "100%" }}
-              key={uuid()}
-              className={styles.users_comments}
-            >
-              <div
-                style={{ display: "flex", alignItems: "center", gap: "4px" }}
-              >
-                <img
-                  className={styles.commentersPic}
-                  src={comment.displayPic}
-                  alt='commenter pic'
-                />
-                <span
-                  style={{
-                    fontWeight: "bold",
-                    paddingRight: "5px",
-                    fontSize: "12.5px",
-                    display: "inline-block",
-                    width: "min-content",
-                    whiteSpace: "pre",
-                  }}
+            <div key={uuid()} className={styles.users_comments}>
+              <img
+                className={styles.commentersPic}
+                src={comment.displayPic}
+                alt='commenter pic'
+              />
+              <span className={styles.posted_comments} color='initial'>
+                <div
+                  style={{ display: "inline-block", verticalAlign: "middle" }}
                 >
-                  {comment.displayName}
-                </span>
-              </div>
-
-              <span
-                variant='caption'
-                className={styles.posted_comments}
-                color='initial'
-              >
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "4px",
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontWeight: "bold",
+                        paddingRight: "5px",
+                        fontSize: "12.5px",
+                        display: "inline-block",
+                        width: "min-content",
+                        whiteSpace: "pre",
+                      }}
+                    >
+                      {comment.displayName}
+                    </span>
+                  </div>
+                </div>
                 {comment.text}
               </span>
             </div>
           ))}
+        </div>
+      )}
+
+      {comments.length > 0 && (
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            padding: "10px",
+            justifyContent: "center",
+          }}
+        >
+          <Typography
+            variant='body2'
+            color='initial'
+            className={styles.noMorePost_SP}
+          >
+            uhhh...no more comments
+          </Typography>
+          <img
+            src='https://s2.svgbox.net/illlustrations.svg?ic=frankenstein&color=00bfff'
+            width='132'
+            height='132'
+            alt='no more comments'
+          />
         </div>
       )}
     </Paper>

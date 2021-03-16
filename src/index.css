@@ -1,5 +1,8 @@
+/* Google Fonts */
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Covered+By+Your+Grace&display=swap");
+
+@import url("https://fonts.googleapis.com/css2?family=Mansalva&display=swap");
 
 * {
   margin: 0;
@@ -46,4 +49,24 @@ code {
     flex-grow: initial;
     min-width: 100px !important;
   }
+}
+
+@media (max-width: 600px) {
+  .MuiSnackbarContent-root {
+    flex-grow: initial;
+    min-width: 100px !important;
+  }
+}
+
+.MuiDialog-paperWidthMd {
+  max-width: 982px;
+  min-width: 50vw;
+}
+
+.MuiDialog-paperFullWidth {
+  min-width: 90vw;
+}
+
+.MuiDialog-paperScrollPaper {
+  min-height: 70vh;
 }
