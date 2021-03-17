@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Paper,
   Avatar,
@@ -32,6 +32,7 @@ import { Link } from "react-router-dom";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { useTheme } from "@material-ui/core/styles";
 import PokeEmoji from "./pokeEmoji.tsx";
+import { handelRightClick } from "./Helper-Functions/contextMenu.ts";
 
 // Reaction Dialog Icons
 import CloseIcon from "@material-ui/icons/Close";
@@ -75,6 +76,14 @@ function Post({
   const [emojiSelector, setEmojiSelector] = useState(false);
   const [deleteError, setDeleteError] = useState(false);
   const [ReactionsDialogBox, setReactionsDialogBox] = useState(false);
+
+  //Post Image Ref
+  const postImgRef = useRef(null);
+  useEffect(() => {
+    if (postImgRef && postImgRef.current) {
+      postImgRef.current.addEventListener("contextmenu", handelRightClick);
+    }
+  });
 
   // Reaction DialogBox (Counter)
   const theme = useTheme();
@@ -468,6 +477,7 @@ function Post({
       >
         <img
           className={styles.post_img}
+          ref={postImgRef}
           src={imageUrl}
           alt={imageUrl}
           onLoad={() => setImageLoaded(true)}

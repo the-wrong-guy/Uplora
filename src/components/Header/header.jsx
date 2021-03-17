@@ -299,7 +299,9 @@ function Header(props) {
                   </Card>
                 </ListItem>
                 <ListItem className={styles.list_Item}>
-                  <span style={{ padding: "5px" }}>Ver : beta : 1.1.1</span>
+                  <span style={{ padding: "5px" }}>
+                    <b>Version:</b> beta@1.1.1
+                  </span>
                 </ListItem>
                 <ListItem className={styles.list_Item}>
                   <Button

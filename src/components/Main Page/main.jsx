@@ -24,6 +24,7 @@ import { useHistory } from "react-router-dom";
 import Header from "../Header/header";
 import Post from "../Post/post";
 import styles from "./main.module.scss";
+import Loader from "../Loader/loader";
 
 //Dialog Box Icons
 import CloseIcon from "@material-ui/icons/Close";
@@ -170,7 +171,6 @@ export default function Main() {
     const unsub = db
       .collection("posts")
       .orderBy("timestamp", "desc")
-      .limit(15)
       .onSnapshot((snapShot) => {
         setPosts(
           snapShot.docs.map((doc) => ({ id: doc.id, post: doc.data() }))
@@ -205,202 +205,210 @@ export default function Main() {
   };
   return (
     <div style={{ position: "relative", width: "100%", height: "100%" }}>
-      <Snackbar
-        component='span'
-        anchorOrigin={{
-          vertical: "top",
-          horizontal: "center",
-        }}
-        open={imgWarningSnackbar}
-        autoHideDuration={2000}
-        onClose={handleSnackBarClose}
-        message='Add a photo by clicking on the camera icon'
-        disableWindowBlurListener={true}
-      />
-      <Fab
-        onClick={handleClickOpen}
-        className={styles.addBtn}
-        color='primary'
-        aria-label='add'
-      >
-        <AddIcon />
-      </Fab>
-      <Header />
-
-      <Grid
-        style={{ margin: "64px 0" }}
-        container
-        justify='center'
-        direction='row'
-      >
+      {user ? (
         <>
-          {user && posts ? (
-            posts.map(({ id, post }) => (
-              <Grid
-                item
-                xs={12}
-                sm={12}
-                md={12}
-                style={{ display: "flex", justifyContent: "center" }}
-                key={id}
-              >
-                <Post
-                  postId={id}
-                  username={post.username}
-                  postUserId={post.userId}
-                  user={user}
-                  displayName={post.displayName}
-                  displayPic={post.displayPic}
-                  caption={post.caption}
-                  imageUrl={post.imageUrl}
-                  createdAt={post.timestamp}
-                />
-              </Grid>
-            ))
-          ) : (
-            <Grid
-              item
-              xs={12}
-              sm={12}
-              md={12}
-              style={{ display: "flex", justifyContent: "center" }}
-            >
-              loading...
-            </Grid>
-          )}
+          <Snackbar
+            component='span'
+            anchorOrigin={{
+              vertical: "top",
+              horizontal: "center",
+            }}
+            open={imgWarningSnackbar}
+            autoHideDuration={2000}
+            onClose={handleSnackBarClose}
+            message='Add a photo by clicking on the camera icon'
+            disableWindowBlurListener={true}
+          />
+          <Fab
+            onClick={handleClickOpen}
+            className={styles.addBtn}
+            color='primary'
+            aria-label='add'
+          >
+            <AddIcon />
+          </Fab>
+          <Header />
 
           <Grid
-            item
-            xs={12}
-            sm={12}
-            md={12}
-            style={{ display: "flex", justifyContent: "center" }}
+            style={{ margin: "64px 0" }}
+            container
+            justify='center'
+            direction='row'
           >
-            <Button onClick={loadMorePosts} variant='contained' color='default'>
-              Load More
-            </Button>
+            <>
+              {posts ? (
+                posts.map(({ id, post }) => (
+                  <Grid
+                    item
+                    xs={12}
+                    sm={12}
+                    md={12}
+                    style={{ display: "flex", justifyContent: "center" }}
+                    key={id}
+                  >
+                    <Post
+                      postId={id}
+                      username={post.username}
+                      postUserId={post.userId}
+                      user={user}
+                      displayName={post.displayName}
+                      displayPic={post.displayPic}
+                      caption={post.caption}
+                      imageUrl={post.imageUrl}
+                      createdAt={post.timestamp}
+                    />
+                  </Grid>
+                ))
+              ) : (
+                <Grid
+                  item
+                  xs={12}
+                  sm={12}
+                  md={12}
+                  style={{ display: "flex", justifyContent: "center" }}
+                >
+                  loading...
+                </Grid>
+              )}
+            </>
           </Grid>
-        </>
-      </Grid>
-      <Dialog
-        open={open}
-        TransitionComponent={Transition}
-        fullScreen
-        onClose={handleDialogBoxClose}
-        aria-labelledby='alert-dialog-slide-upload'
-        aria-describedby='alert-dialog-slide-upload'
-        className={styles.dialogBox}
-        transitionDuration={400}
-      >
-        <AppBar style={{ position: "relative" }}>
-          <Toolbar style={{ display: "flex", justifyContent: "space-between" }}>
-            <IconButton
-              edge='start'
-              color='inherit'
-              onClick={handleDialogBoxClose}
-              aria-label='close'
-            >
-              <CloseIcon />
-            </IconButton>
-            <Typography variant='subtitle1' color='initial'>
-              New post
-            </Typography>
-            <input
-              style={{ display: "none" }}
-              onChange={(e) => handleImageChange(e)}
-              accept='image/*'
-              id='upload-image-dailogbox'
-              type='file'
-            />
-            <label htmlFor='upload-image-dailogbox'>
-              <IconButton aria-label='open gallery' component='span'>
-                <AddAPhotoIcon />
-              </IconButton>
-            </label>
-          </Toolbar>
-        </AppBar>
-        <div
-          style={{
-            width: "100%",
-            height: "calc(100vh - 64px)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <img
-            style={{ maxWidth: "100%", maxHeight: "100%" }}
-            src={previewImage || NoPreview}
-            alt='preview img'
-          />
-        </div>
-        <div style={{ display: "contents" }}>
-          <Divider />
-          <Paper
-            elevation={5}
-            style={{
-              borderRadius: "0",
-              flex: "1",
-              display: "flex",
-              alignItems: "center",
-            }}
+          <Dialog
+            open={open}
+            TransitionComponent={Transition}
+            fullScreen
+            onClose={handleDialogBoxClose}
+            aria-labelledby='alert-dialog-slide-upload'
+            aria-describedby='alert-dialog-slide-upload'
+            className={styles.dialogBox}
+            transitionDuration={400}
           >
-            <textarea
-              rows={caption.rows}
-              value={caption.text}
-              placeholder={"Add a caption..."}
+            <AppBar style={{ position: "relative" }}>
+              <Toolbar
+                style={{ display: "flex", justifyContent: "space-between" }}
+              >
+                <IconButton
+                  edge='start'
+                  color='inherit'
+                  onClick={handleDialogBoxClose}
+                  aria-label='close'
+                >
+                  <CloseIcon />
+                </IconButton>
+                <Typography variant='subtitle1' color='initial'>
+                  New post
+                </Typography>
+                <input
+                  style={{ display: "none" }}
+                  onChange={(e) => handleImageChange(e)}
+                  accept='image/*'
+                  id='upload-image-dailogbox'
+                  type='file'
+                />
+                <label htmlFor='upload-image-dailogbox'>
+                  <IconButton aria-label='open gallery' component='span'>
+                    <AddAPhotoIcon />
+                  </IconButton>
+                </label>
+              </Toolbar>
+            </AppBar>
+            <div
               style={{
                 width: "100%",
-                position: "relative",
-                border: "none",
-                borderRadius: "3px",
-                resize: "none",
-                fontSize: "13.2px",
-                lineHeight: "20px",
-                overflow: "auto",
-                height: "auto",
-                padding: "8px",
-                outline: "none",
-                background: "transparent",
+                height: "calc(100vh - 64px)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
               }}
-              className={styles.textBox}
-              onChange={handleCaptionChange}
-            />
-          </Paper>
-          <Button
-            variant='contained'
-            color='secondary'
-            size='small'
-            fullWidth
-            onClick={() => handleImageUpload()}
-            disabled={imgUploading}
-            style={{ borderRadius: "0", fontWeight: "700" }}
-          >
-            {uploadingSuccess ? (
-              <CheckIcon style={{ color: "green" }} />
-            ) : imgUploading ? (
-              <div
+            >
+              <img
+                style={{ maxWidth: "100%", maxHeight: "100%" }}
+                src={previewImage || NoPreview}
+                alt='preview img'
+              />
+            </div>
+            <div style={{ display: "contents" }}>
+              <Divider />
+              <Paper
+                elevation={5}
                 style={{
+                  borderRadius: "0",
+                  flex: "1",
                   display: "flex",
-                  justifyContent: "center",
                   alignItems: "center",
-                  gap: "5px",
                 }}
               >
-                <img
-                  src='https://s2.svgbox.net/loaders.svg?ic=elastic-spinner&color=01983b'
-                  width='15'
-                  height='15'
-                  alt='uploading'
+                <textarea
+                  rows={caption.rows}
+                  value={caption.text}
+                  placeholder={"Add a caption..."}
+                  style={{
+                    width: "100%",
+                    position: "relative",
+                    border: "none",
+                    borderRadius: "3px",
+                    resize: "none",
+                    fontSize: "13.2px",
+                    lineHeight: "20px",
+                    overflow: "auto",
+                    height: "auto",
+                    padding: "8px",
+                    outline: "none",
+                    background: "transparent",
+                  }}
+                  className={styles.textBox}
+                  onChange={handleCaptionChange}
                 />
-                uploading...
-              </div>
-            ) : (
-              "upload"
-            )}
-          </Button>
-        </div>
-      </Dialog>
+              </Paper>
+              <Button
+                variant='contained'
+                color='secondary'
+                size='small'
+                fullWidth
+                onClick={() => handleImageUpload()}
+                disabled={imgUploading}
+                style={{ borderRadius: "0", fontWeight: "700" }}
+              >
+                {uploadingSuccess ? (
+                  <CheckIcon style={{ color: "green" }} />
+                ) : imgUploading ? (
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      gap: "5px",
+                    }}
+                  >
+                    <img
+                      src='https://s2.svgbox.net/loaders.svg?ic=elastic-spinner&color=01983b'
+                      width='15'
+                      height='15'
+                      alt='uploading'
+                    />
+                    uploading...
+                  </div>
+                ) : (
+                  "upload"
+                )}
+              </Button>
+            </div>
+          </Dialog>
+        </>
+      ) : (
+        <Loader />
+      )}
     </div>
   );
 }
+
+// <Grid
+// item
+// xs={12}
+// sm={12}
+// md={12}
+// style={{ display: "flex", justifyContent: "center" }}
+// >
+// <Button onClick={loadMorePosts} variant='contained' color='default'>
+//   Load More
+// </Button>
+// </Grid>

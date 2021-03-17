@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Paper,
   Avatar,
@@ -13,7 +13,6 @@ import {
   Dialog,
   DialogContent,
   useMediaQuery,
-  Divider,
   Chip,
 } from "@material-ui/core";
 import Skeleton from "@material-ui/lab/Skeleton";
@@ -30,9 +29,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { useTheme } from "@material-ui/core/styles";
 import PokeEmoji from "./pokeEmoji.tsx";
+import { handelRightClick } from "./Helper-Functions/contextMenu.ts";
 
 // Helper Functions
-import ReportPost from "./Helper-Functions/reportPost";
+// import ReportPost from "./Helper-Functions/reportPost";
 
 // Bottom Drawer Icons
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -71,6 +71,14 @@ function Post({
   const [deleteError, setDeleteError] = useState(false);
   const [ReactionsDialogBox, setReactionsDialogBox] = useState(false);
   const [ReportSnackBarOpen, setReportSnackBarOpen] = useState(false);
+
+  //Post Image Ref
+  const postImgRef = useRef(null);
+  useEffect(() => {
+    if (postImgRef && postImgRef.current) {
+      postImgRef.current.addEventListener("contextmenu", handelRightClick);
+    }
+  });
 
   const handleMoreVertIconClick = (event) => {
     setDrawerOpen(true);
@@ -438,6 +446,7 @@ function Post({
         }}
       >
         <img
+          ref={postImgRef}
           className={styles.post_img}
           src={imageUrl}
           alt={imageUrl}

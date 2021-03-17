@@ -1,6 +1,6 @@
 {
-  "name": "insta-clone",
-  "version": "0.1.0",
+  "name": "uplora",
+  "version": "1.1.1",
   "private": true,
   "dependencies": {
     "@charkour/react-reactions": "^0.5.0",

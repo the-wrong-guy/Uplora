@@ -1,15 +1,19 @@
 import firebase from "firebase";
 
-const firebaseApp = firebase.initializeApp({
-  apiKey: "AIzaSyDXOLKwh4rhwjj2PTMQfRcYtYAGip_FWdw",
-  authDomain: "pixex-15977.firebaseapp.com",
-  projectId: "pixex-15977",
-  storageBucket: "pixex-15977.appspot.com",
-  messagingSenderId: "574601452026",
-  appId: process.env.REACT_APP_FIREBASE_APP_ID,
-});
+const firebaseConfig = {
+  apiKey: "AIzaSyCBCWN1Bvph1gbUGQGZwVqkP2OFoLu654I",
+  authDomain: "uplora.firebaseapp.com",
+  projectId: "uplora",
+  storageBucket: "uplora.appspot.com",
+  messagingSenderId: "537369278099",
+  appId: "1:537369278099:web:46ae8fd13e728cc359bf66",
+  measurementId: "G-HPHSZY7MLE",
+};
 
-const db = firebaseApp.firestore();
+firebase.initializeApp(firebaseConfig);
+
+firebase.analytics();
+const db = firebase.firestore();
 const auth = firebase.auth();
 const storage = firebase.storage();
 const googleProvider = new firebase.auth.GoogleAuthProvider();

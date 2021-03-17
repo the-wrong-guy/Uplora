@@ -8,7 +8,6 @@ import Header from "./components/Header/header";
 import LoginPage from "./components/Login page/login";
 import MainPage from "./components/Main Page/main";
 import IndividualPostPage from "./components/Individual Post/individual_post_page";
-import { handelRightClick } from "./contextMenu";
 
 function App() {
   // document.addEventListener("contextmenu", handelRightClick);
