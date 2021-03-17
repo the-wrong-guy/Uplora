@@ -223,30 +223,46 @@ function Header(props) {
                         justifyContent: "space-evenly",
                       }}
                     >
-                      <Button
-                        variant='contained'
-                        className={styles.list_buttons}
-                        size='small'
-                        endIcon={<BugReportIcon />}
+                      <a
+                        style={{ textDecoration: "none" }}
+                        href='mailto:bhargabguy8@gmail.com?subject=uplora-Bugs&body=Here%2C%20write%20about%20the%20bugs%20you%20found%20while%20using%20Uplora...'
                       >
-                        Bugs
-                      </Button>
-                      <Button
-                        variant='contained'
-                        className={styles.list_buttons}
-                        size='small'
-                        endIcon={<IssuesIcon />}
+                        <Button
+                          variant='contained'
+                          className={styles.list_buttons}
+                          size='small'
+                          endIcon={<BugReportIcon />}
+                        >
+                          Bugs
+                        </Button>
+                      </a>
+
+                      <a
+                        style={{ textDecoration: "none" }}
+                        href='mailto:bhargabguy8@gmail.com?subject=uplora-Issues&body=Here%2C%20write%20about%20the%20Issues%20you%20faced%20while%20using%20Uplora...'
                       >
-                        Issues
-                      </Button>
-                      <Button
-                        variant='contained'
-                        className={styles.list_buttons}
-                        size='small'
-                        endIcon={<IdeasIcon />}
+                        <Button
+                          variant='contained'
+                          className={styles.list_buttons}
+                          size='small'
+                          endIcon={<IssuesIcon />}
+                        >
+                          Issues
+                        </Button>
+                      </a>
+                      <a
+                        style={{ textDecoration: "none" }}
+                        href='mailto:bhargabguy8@gmail.com?subject=uplora-Ideas&body=Here%2C%20write%20about%20the%20ideas%20you%20think%20that%20it%20will%20make%20Uplora%20a%20better%20platform...'
                       >
-                        Ideas
-                      </Button>
+                        <Button
+                          variant='contained'
+                          className={styles.list_buttons}
+                          size='small'
+                          endIcon={<IdeasIcon />}
+                        >
+                          Ideas
+                        </Button>
+                      </a>
                     </div>
                   </Card>
                 </ListItem>
@@ -259,22 +275,33 @@ function Header(props) {
                       Follow the Dev
                     </Typography>
                     <div>
-                      <IconButton aria-label='instagram link'>
-                        <InstagramIcon />
-                      </IconButton>
-                      <IconButton aria-label='github link'>
-                        <GitHubIcon />
-                      </IconButton>
-                      <IconButton aria-label='redit link'>
-                        <RedditIcon />
-                      </IconButton>
+                      <a
+                        target='_blank'
+                        rel='noopener noreferrer'
+                        href='https://www.instagram.com/________the_wrong_guy_______/'
+                        style={{ textDecoration: "none", outline: "none" }}
+                      >
+                        <IconButton aria-label='instagram link'>
+                          <InstagramIcon />
+                        </IconButton>
+                      </a>
+                      <a
+                        target='_blank'
+                        rel='noopener noreferrer'
+                        href='https://github.com/the-wrong-guy'
+                        style={{ textDecoration: "none", outline: "none" }}
+                      >
+                        <IconButton aria-label='github link'>
+                          <GitHubIcon />
+                        </IconButton>
+                      </a>
                     </div>
                   </Card>
                 </ListItem>
-                <ListItem
-                  style={{ marginTop: "auto" }}
-                  className={styles.list_Item}
-                >
+                <ListItem className={styles.list_Item}>
+                  <span style={{ padding: "5px" }}>Ver : beta : 1.1.1</span>
+                </ListItem>
+                <ListItem className={styles.list_Item}>
                   <Button
                     endIcon={<LogoutIcon />}
                     variant='contained'

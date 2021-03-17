@@ -15,6 +15,7 @@ import {
   DialogTitle,
   DialogContent,
   useMediaQuery,
+  Chip,
 } from "@material-ui/core";
 import Skeleton from "@material-ui/lab/Skeleton";
 import { db } from "../../firebase";
@@ -208,7 +209,6 @@ function Post({
         .delete()
         .then(() => {
           toggleDrawer("bottom", false);
-          console.log("Document successfully deleted!");
           setDeleteError(false);
         })
         .catch((error) => {
@@ -391,8 +391,25 @@ function Post({
             onClose={toggleDrawer("bottom", false)}
             transitionDuration={400}
           >
-            <div style={{ width: "100vw", height: "30vh" }}>
+            <div style={{ width: "100vw", height: "auto" }}>
               <List>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    widows: "100%",
+                  }}
+                >
+                  <Chip
+                    component='div'
+                    color='secondary'
+                    style={{
+                      height: "5px",
+                      width: "15%",
+                      borderRadius: "100px",
+                    }}
+                  />
+                </div>
                 <CopyToClipboard
                   text={`https://uplora.netlify.app/${postId}`}
                   onCopy={() => handleShareLink()}
@@ -407,11 +424,12 @@ function Post({
                 <ListItem
                   button
                   onClick={() => handleDownloadPostImg(imageUrl, "download")}
+                  disabled
                 >
                   <ListItemIcon>
                     <DownloadIcon />
                   </ListItemIcon>
-                  <ListItemText primary='Download' />
+                  <ListItemText primary='Download' secondary='(coming soon)' />
                 </ListItem>
                 <ListItem button onClick={() => handleReportPost()}>
                   <ListItemIcon>

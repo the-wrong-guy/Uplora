@@ -13,6 +13,8 @@ import {
   Dialog,
   DialogContent,
   useMediaQuery,
+  Divider,
+  Chip,
 } from "@material-ui/core";
 import Skeleton from "@material-ui/lab/Skeleton";
 import { db } from "../../firebase";
@@ -28,6 +30,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { useTheme } from "@material-ui/core/styles";
 import PokeEmoji from "./pokeEmoji.tsx";
+
+// Helper Functions
+import ReportPost from "./Helper-Functions/reportPost";
 
 // Bottom Drawer Icons
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -65,6 +70,7 @@ function Post({
   const [emojiSelector, setEmojiSelector] = useState(false);
   const [deleteError, setDeleteError] = useState(false);
   const [ReactionsDialogBox, setReactionsDialogBox] = useState(false);
+  const [ReportSnackBarOpen, setReportSnackBarOpen] = useState(false);
 
   const handleMoreVertIconClick = (event) => {
     setDrawerOpen(true);
@@ -88,6 +94,7 @@ function Post({
     }
 
     setSnackBarOpen(false);
+    setReportSnackBarOpen(false);
   };
 
   const toggleDrawer = (anchor, e) => (event) => {
@@ -146,6 +153,25 @@ function Post({
     };
   }, [postId]);
 
+  const handleReportPost = () => {
+    if (user) {
+      try {
+        db.collection("reported_post")
+          .doc(postId)
+          .collection("reports")
+          .doc(user.uid)
+          .set({
+            userName: user.displayName,
+            userId: user.uid,
+            postId: postId,
+          });
+        setReportSnackBarOpen(true);
+        setDrawerOpen(false);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
   useEffect(() => {
     let unsubscribe;
     if (postId) {
@@ -275,6 +301,18 @@ function Post({
         message='Copied'
         disableWindowBlurListener={true}
       />
+      <Snackbar
+        component='span'
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "center",
+        }}
+        open={ReportSnackBarOpen}
+        autoHideDuration={1800}
+        onClose={handleSnackBarClose}
+        message='Reported!'
+        disableWindowBlurListener={true}
+      />
       <div className={styles.post_header}>
         <div className={styles.post_header_profile}>
           {displayPic ? (
@@ -323,8 +361,26 @@ function Post({
             onClose={toggleDrawer("bottom", false)}
             transitionDuration={400}
           >
-            <div style={{ width: "100vw", height: "30vh" }}>
+            <div style={{ width: "100vw", height: "auto" }}>
               <List>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    widows: "100%",
+                  }}
+                >
+                  <Chip
+                    component='div'
+                    color='secondary'
+                    style={{
+                      height: "5px",
+                      width: "15%",
+                      borderRadius: "100px",
+                    }}
+                  />
+                </div>
+
                 <CopyToClipboard
                   text={`https://uplora.netlify.app/${postId}`}
                   onCopy={() => handleShareLink()}
@@ -336,13 +392,17 @@ function Post({
                     <ListItemText primary='Copy link' />
                   </ListItem>
                 </CopyToClipboard>
-                <ListItem button onClick={() => handleDownloadPostImg()}>
+                <ListItem
+                  button
+                  onClick={() => handleDownloadPostImg()}
+                  disabled
+                >
                   <ListItemIcon>
                     <DownloadIcon />
                   </ListItemIcon>
-                  <ListItemText primary='Download' />
+                  <ListItemText primary='Download' secondary='(coming soon)' />
                 </ListItem>
-                <ListItem button onClick={() => handleDownloadPostImg()}>
+                <ListItem button onClick={() => handleReportPost()}>
                   <ListItemIcon>
                     <ReportIcon />
                   </ListItemIcon>

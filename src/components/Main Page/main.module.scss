@@ -7,6 +7,19 @@
 }
 
 .dialogBox {
+  width: 100%;
+  height: sauto;
+}
+
+//Caption TextBox
+.textBox::-webkit-scrollbar {
+  width: 4px;
+}
+.textBox::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+  background-color: #9581da;
 }
 
 @media only screen and (max-width: 600px) {
