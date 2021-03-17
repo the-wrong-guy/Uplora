@@ -7,12 +7,12 @@ import { auth, db } from "../../firebase";
 import Header from "../Header/header";
 import SinglePostCard from "../Post/singlePost";
 import { Helmet } from "react-helmet";
+import Loader from "../Loader/loader";
 export default function IndividualPost() {
   const [post, setPost] = useState([]);
   const [user, setUser] = useState(null);
   const history = useHistory();
   const dispatch = useDispatch();
-  const location = useLocation();
   let { id } = useParams();
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((authUser) => {
@@ -94,7 +94,7 @@ export default function IndividualPost() {
           </div>
         </>
       ) : (
-        "loading"
+        <Loader />
       )}
     </div>
   );
