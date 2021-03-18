@@ -1,5 +1,5 @@
-@import url("https://fonts.googleapis.com/css2?family=Damion&display=swap");
-
+@import url("https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Asap+Condensed:wght@500&display=swap");
 .lgBtn {
   background-color: #000 !important;
   text-transform: unset !important;
@@ -12,9 +12,16 @@
 }
 
 .header {
-  font-family: "Damion", cursive;
+  display: grid;
+  font-family: "Asap Condensed", sans-serif;
   font-size: 3.3rem;
-  color: #00ac7c;
-  letter-spacing: 2px;
+  color: inherit;
+  // letter-spacing: 2px;
   font-weight: 300;
+  text-align: center;
+}
+
+.appName {
+  font-family: "Covered By Your Grace", cursive;
+  color: #8685ef;
 }

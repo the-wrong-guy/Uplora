@@ -230,8 +230,7 @@ function Post({
   return (
     <Paper
       elevation={15}
-      style={{ marginBottom: "60px" }}
-      className={cx(styles.paper)}
+      className={cx(styles.paper, styles.individualPostCard)}
     >
       <Dialog
         maxWidth={"md"}

@@ -1,7 +1,7 @@
 .addBtn {
   position: fixed !important;
-  top: 88%;
-  left: 3%;
+  top: 90%;
+  left: 2%;
   z-index: 100;
   background-color: #7654b4 !important;
   height: 50px !important;
@@ -25,8 +25,15 @@
 }
 
 @media only screen and (max-width: 600px) {
-  .addBtn {
-    // height: 20px !important;
-    // width: 37px !important;
+  .postGrid:first-child {
+    margin-top: 54px !important;
   }
+}
+
+.postGrid:last-child {
+  margin-bottom: 100px !important;
+}
+
+.postGrid:first-child {
+  margin-top: 64px;
 }

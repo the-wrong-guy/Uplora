@@ -230,7 +230,7 @@ export default function Main() {
           <Header />
 
           <Grid
-            style={{ margin: "64px 0" }}
+            style={{ marginTop: "5px", marginBottom: "50px" }}
             container
             justify='center'
             direction='row'
@@ -245,6 +245,7 @@ export default function Main() {
                     md={12}
                     style={{ display: "flex", justifyContent: "center" }}
                     key={id}
+                    className={styles.postGrid}
                   >
                     <Post
                       postId={id}

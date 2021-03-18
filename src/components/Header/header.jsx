@@ -34,7 +34,7 @@ import GitHubIcon from "@material-ui/icons/GitHub";
 import RedditIcon from "@material-ui/icons/Reddit";
 
 //logo
-import UploraLogo3 from "./Untitled_design__20_-removebg-preview.png";
+import UploraLogo from "./uplora.webp";
 function Header(props) {
   const history = useHistory();
   const dispatch = useDispatch();
@@ -83,7 +83,7 @@ function Header(props) {
         <Toolbar className={styles.toolbar}>
           <div style={{ cursor: "pointer" }}>
             <img
-              src={UploraLogo3}
+              src={UploraLogo}
               style={{ height: "34px" }}
               alt='uplora logo'
               onClick={() => history.push("/home")}

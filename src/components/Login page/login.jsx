@@ -62,7 +62,9 @@ export default function Login() {
         <Loader />
       ) : (
         <div className='main-container'>
-          <h2 className={styles.header}>Welcome To Uplora</h2>
+          <h2 className={styles.header}>
+            Welcome To <span className={styles.appName}>Uplora</span>
+          </h2>
           <div className='general-container'>
             <div className='shadow'></div>
             <div className='dragon1-container'>

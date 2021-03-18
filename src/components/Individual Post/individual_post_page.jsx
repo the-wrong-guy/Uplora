@@ -72,7 +72,6 @@ export default function IndividualPost() {
           <Header />
           <div
             style={{
-              marginTop: "64px",
               display: "flex",
               justifyContent: "center",
             }}
