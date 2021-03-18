@@ -8,6 +8,7 @@ import Header from "../Header/header";
 import SinglePostCard from "../Post/singlePost";
 import { Helmet } from "react-helmet";
 import Loader from "../Loader/loader";
+import { motion } from "framer-motion";
 export default function IndividualPost() {
   const [post, setPost] = useState([]);
   const [user, setUser] = useState(null);
@@ -68,7 +69,13 @@ export default function IndividualPost() {
         <meta property='twitter:image' content={`${post?.imageUrl}`} />
       </Helmet>
       {user ? (
-        <>
+        <motion.div
+          exitBeforeEnter
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 1 }}
+        >
           <Header />
           <div
             style={{
@@ -91,7 +98,7 @@ export default function IndividualPost() {
               "loading"
             )}
           </div>
-        </>
+        </motion.div>
       ) : (
         <Loader />
       )}

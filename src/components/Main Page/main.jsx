@@ -16,7 +16,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { setUserInfo } from "../../Redux/Action/action";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
 import AddIcon from "@material-ui/icons/Add";
 import { auth, db, storage } from "../../firebase";
 import { v4 as uuidv4 } from "uuid";
@@ -25,6 +24,7 @@ import Header from "../Header/header";
 import Post from "../Post/post";
 import styles from "./main.module.scss";
 import Loader from "../Loader/loader";
+import { motion } from "framer-motion";
 
 //Dialog Box Icons
 import CloseIcon from "@material-ui/icons/Close";
@@ -206,7 +206,13 @@ export default function Main() {
   return (
     <div style={{ position: "relative", width: "100%", height: "100%" }}>
       {user ? (
-        <>
+        <motion.div
+          exitBeforeEnter
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 1 }}
+        >
           <Snackbar
             component='span'
             anchorOrigin={{
@@ -394,7 +400,7 @@ export default function Main() {
               </Button>
             </div>
           </Dialog>
-        </>
+        </motion.div>
       ) : (
         <Loader />
       )}

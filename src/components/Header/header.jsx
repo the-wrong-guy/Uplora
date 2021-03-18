@@ -16,6 +16,7 @@ import styles from "./header.module.scss";
 import { auth } from "../../firebase";
 import LogoutIcon from "@material-ui/icons/ExitToApp";
 import cx from "classnames";
+import { motion } from "framer-motion";
 
 //Profile pic Icon
 import PersonIcon from "@material-ui/icons/Person";
@@ -31,7 +32,6 @@ import IssuesIcon from "@material-ui/icons/Warning";
 //Social Icons
 import InstagramIcon from "@material-ui/icons/Instagram";
 import GitHubIcon from "@material-ui/icons/GitHub";
-import RedditIcon from "@material-ui/icons/Reddit";
 
 //logo
 import UploraLogo from "./uplora.webp";

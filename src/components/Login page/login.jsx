@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Button, CssBaseline, Divider } from "@material-ui/core";
+import { Button, CssBaseline } from "@material-ui/core";
+import { motion } from "framer-motion";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setGlobalTheme } from "../../Redux/Action/action";
@@ -61,7 +62,14 @@ export default function Login() {
       {Loading ? (
         <Loader />
       ) : (
-        <div className='main-container'>
+        <motion.div
+          exitBeforeEnter
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 1 }}
+          className='main-container'
+        >
           <h2 className={styles.header}>
             Welcome To <span className={styles.appName}>Uplora</span>
           </h2>
@@ -140,7 +148,7 @@ export default function Login() {
               </>
             )}
           </Button>
-        </div>
+        </motion.div>
       )}
     </>
   );
