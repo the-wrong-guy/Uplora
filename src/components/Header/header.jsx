@@ -3,7 +3,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import { IconButton, Fab,  Card, Chip } from "@material-ui/core";
+import { IconButton, Fab, Card, Chip } from "@material-ui/core";
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
 import CloseIcon from "@material-ui/icons/Close";
 import Button from "@material-ui/core/Button";
@@ -23,7 +23,7 @@ import PersonIcon from "@material-ui/icons/Person";
 //Theme Icons
 import DarkThemeIcon from "@material-ui/icons/NightsStay";
 import LightThemeIcon from "@material-ui/icons/WbSunny";
-import DefaultThemeIcon from "@material-ui/icons/FilterVintage";
+import RemixThemeIcon from "@material-ui/icons/FilterVintage";
 //Report Icons
 import BugReportIcon from "@material-ui/icons/BugReport";
 import IdeasIcon from "@material-ui/icons/EmojiObjects";
@@ -169,7 +169,7 @@ function Header(props) {
                       />
                       <label htmlFor='remix-theme'>
                         <span>
-                          <DefaultThemeIcon style={{ color: " #ff53a2" }} />
+                          <RemixThemeIcon style={{ color: " #ff53a2" }} />
                           Remix
                         </span>
                       </label>
@@ -298,8 +298,16 @@ function Header(props) {
                   </Card>
                 </ListItem>
                 <ListItem className={styles.list_Item}>
-                  <span style={{ padding: "5px" }}>
-                    <b>Version:</b> beta@1.1.1
+                  <span
+                    style={{
+                      padding: "5px 10px",
+                      borderRadius: "1000px",
+                      background: "#313131",
+                      fontSize: ".7rem",
+                      color: "black",
+                    }}
+                  >
+                    <b>Version:</b> beta@1.2.0
                   </span>
                 </ListItem>
                 <ListItem className={styles.list_Item}>

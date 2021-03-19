@@ -78,6 +78,7 @@ function ResizableTextarea({ postId }) {
             padding: "8px",
             outline: "none",
             background: "transparent",
+            color: "inherit",
           }}
           className={styles.textBox}
           onChange={handleChange}
