@@ -6,6 +6,15 @@ $post-border-color: rgb(240, 240, 240);
   /* margin-top: 70px; */
 }
 
+//stopping text selection
+.text_selection_none {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -o-user-select: none;
+}
+
 .paper {
   width: 450px;
   height: auto;

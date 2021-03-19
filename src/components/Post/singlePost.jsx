@@ -252,6 +252,7 @@ function Post({
             variant='body1'
             color='initial'
             style={{ paddingLeft: "10px" }}
+            className={styles.text_selection_none}
           >
             All
           </Typography>
@@ -287,8 +288,9 @@ function Post({
                       borderRadius: "50%",
                       cursor: "none",
                     }}
+                    ref={postImgRef}
                   />
-                  <div>{data.by}</div>
+                  <div className={styles.text_selection_none}>{data.by}</div>
                 </div>
                 <PokeEmoji emoji={data.emoji} />
               </div>
@@ -338,7 +340,10 @@ function Post({
           )}
           <div style={{ display: "grid", marginLeft: "8px" }}>
             {displayName ? (
-              <Typography color='textPrimary' className={styles.username}>
+              <Typography
+                color='textPrimary'
+                className={cx(styles.username, styles.text_selection_none)}
+              >
                 {displayName}
               </Typography>
             ) : (
@@ -346,7 +351,11 @@ function Post({
             )}
 
             {createdAt ? (
-              <Typography color='textSecondary' style={{ fontSize: "11px" }}>
+              <Typography
+                color='textSecondary'
+                className={styles.text_selection_none}
+                style={{ fontSize: "11px" }}
+              >
                 {moment(createdAt.toDate()).fromNow()}
               </Typography>
             ) : (
@@ -469,7 +478,7 @@ function Post({
         )}
       </div>
       {caption !== "" && (
-        <div className={styles.post_footer}>
+        <div className={cx(styles.post_footer, styles.text_selection_none)}>
           <span
             style={{
               fontWeight: "600",
@@ -557,8 +566,15 @@ function Post({
                 className={styles.commentersPic}
                 src={comment.displayPic}
                 alt='commenter pic'
+                ref={postImgRef}
               />
-              <span className={styles.posted_comments} color='initial'>
+              <span
+                className={cx(
+                  styles.posted_comments,
+                  styles.text_selection_none
+                )}
+                color='initial'
+              >
                 <div
                   style={{ display: "inline-block", verticalAlign: "middle" }}
                 >
@@ -602,7 +618,7 @@ function Post({
           <Typography
             variant='body2'
             color='initial'
-            className={styles.noMorePost_SP}
+            className={cx(styles.noMorePost_SP, styles.text_selection_none)}
           >
             uhhh...no more comments
           </Typography>
@@ -611,6 +627,7 @@ function Post({
             width='132'
             height='132'
             alt='no more comments'
+            ref={postImgRef}
           />
         </div>
       )}

@@ -76,10 +76,10 @@ function Post({
   const [ReactionsDialogBox, setReactionsDialogBox] = useState(false);
 
   //Post Image Ref
-  const postImgRef = useRef(null);
+  const nonClickableRef = useRef(null);
   useEffect(() => {
-    if (postImgRef && postImgRef.current) {
-      postImgRef.current.addEventListener("contextmenu", handelRightClick);
+    if (nonClickableRef && nonClickableRef.current) {
+      nonClickableRef.current.addEventListener("contextmenu", handelRightClick);
     }
   });
 
@@ -316,6 +316,7 @@ function Post({
                       borderRadius: "50%",
                       cursor: "none",
                     }}
+                    ref={nonClickableRef}
                   />
                   <div>{data.by}</div>
                 </div>
@@ -354,7 +355,7 @@ function Post({
           {displayPic ? (
             <Avatar
               className={styles.post_avatar}
-              alt='Cindy Baker'
+              alt='user profile img'
               src={displayPic}
             />
           ) : (
@@ -367,7 +368,10 @@ function Post({
           )}
           <div style={{ display: "grid", marginLeft: "8px" }}>
             {displayName ? (
-              <Typography color='textPrimary' className={styles.username}>
+              <Typography
+                color='textPrimary'
+                className={cx(styles.username, styles.text_selection_none)}
+              >
                 {displayName}
               </Typography>
             ) : (
@@ -375,7 +379,11 @@ function Post({
             )}
 
             {createdAt ? (
-              <Typography color='textSecondary' style={{ fontSize: "11px" }}>
+              <Typography
+                color='textSecondary'
+                className={styles.text_selection_none}
+                style={{ fontSize: "11px" }}
+              >
                 {moment(createdAt.toDate()).fromNow()}
               </Typography>
             ) : (
@@ -474,7 +482,7 @@ function Post({
       >
         <img
           className={styles.post_img}
-          ref={postImgRef}
+          ref={nonClickableRef}
           src={imageUrl}
           alt={imageUrl}
           onLoad={() => setImageLoaded(true)}
@@ -497,7 +505,7 @@ function Post({
         )}
       </div>
       {caption !== "" && (
-        <div className={styles.post_footer}>
+        <div className={cx(styles.post_footer, styles.text_selection_none)}>
           <span
             style={{
               fontWeight: "600",
@@ -572,14 +580,27 @@ function Post({
           }}
         >
           {comments.map((comment) => (
-            <div key={uuid()} className={styles.users_comments}>
+            <div
+              key={uuid()}
+              className={styles.users_comments}
+              unselectable='on'
+              onselectstart='return false;'
+              onmousedown='return false;'
+            >
               <img
                 className={styles.commentersPic}
                 src={comment.displayPic}
                 alt='commenter pic'
+                ref={nonClickableRef}
               />
 
-              <span className={styles.posted_comments} color='initial'>
+              <span
+                className={cx(
+                  styles.posted_comments,
+                  styles.text_selection_none
+                )}
+                color='initial'
+              >
                 <div
                   style={{ display: "inline-block", verticalAlign: "middle" }}
                 >

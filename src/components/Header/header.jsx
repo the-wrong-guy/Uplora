@@ -307,7 +307,7 @@ function Header(props) {
                       color: "black",
                     }}
                   >
-                    <b>Version:</b> beta@1.2.0
+                    <b>Version:</b> beta@1.3.0
                   </span>
                 </ListItem>
                 <ListItem className={styles.list_Item}>
