@@ -580,13 +580,7 @@ function Post({
           }}
         >
           {comments.map((comment) => (
-            <div
-              key={uuid()}
-              className={styles.users_comments}
-              unselectable='on'
-              onselectstart='return false;'
-              onmousedown='return false;'
-            >
+            <div key={uuid()} className={styles.users_comments}>
               <img
                 className={styles.commentersPic}
                 src={comment.displayPic}
