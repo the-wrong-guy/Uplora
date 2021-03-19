@@ -3,7 +3,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import { IconButton, Fab, Paper, Card, Chip } from "@material-ui/core";
+import { IconButton, Fab,  Card, Chip } from "@material-ui/core";
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
 import CloseIcon from "@material-ui/icons/Close";
 import Button from "@material-ui/core/Button";
@@ -16,7 +16,6 @@ import styles from "./header.module.scss";
 import { auth } from "../../firebase";
 import LogoutIcon from "@material-ui/icons/ExitToApp";
 import cx from "classnames";
-import { motion } from "framer-motion";
 
 //Profile pic Icon
 import PersonIcon from "@material-ui/icons/Person";

@@ -9,10 +9,8 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  Button,
   Snackbar,
   Dialog,
-  DialogTitle,
   DialogContent,
   useMediaQuery,
   Chip,
@@ -95,7 +93,6 @@ function Post({
 
   const handleCountersClick = () => {
     setReactionsDialogBox(true);
-    console.log(counter);
   };
 
   const handleReactionDialogBoxClose = () => {

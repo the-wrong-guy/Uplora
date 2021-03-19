@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import firebase from "firebase";
-import { useDispatch, useSelector } from "react-redux";
-import { setTextPresence } from "../../Redux/Action/action";
+import { useSelector } from "react-redux";
 import { Button, Paper } from "@material-ui/core";
 import { db } from "../../firebase";
 import styles from "./post.module.scss";
 
 function ResizableTextarea({ postId }) {
-  const dispatch = useDispatch();
   const user = useSelector((state) => state.CONFIG.userInfo);
   const [comment, setComment] = useState({
     text: "",

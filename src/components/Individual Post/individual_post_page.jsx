@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Grid } from "@material-ui/core";
 import { useDispatch } from "react-redux";
 import { setUserInfo } from "../../Redux/Action/action";
-import { useHistory, useParams, useLocation } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { auth, db } from "../../firebase";
 import Header from "../Header/header";
 import SinglePostCard from "../Post/singlePost";

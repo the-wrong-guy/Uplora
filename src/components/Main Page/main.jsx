@@ -41,8 +41,8 @@ export default function Main() {
   const dispatch = useDispatch();
   const [posts, setPosts] = useState([]);
   const user = useSelector((state) => state.CONFIG.userInfo);
-  const [latestDoc, setLatestDoc] = useState(null);
-  const [hasMorePosts, setHasMorePosts] = useState(false);
+  // const [latestDoc, setLatestDoc] = useState(null);
+  // const [hasMorePosts, setHasMorePosts] = useState(false);
   const [image, setImage] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
   const [imgUploading, setImgUploading] = useState(false);
@@ -175,27 +175,27 @@ export default function Main() {
         setPosts(
           snapShot.docs.map((doc) => ({ id: doc.id, post: doc.data() }))
         );
-        setLatestDoc(snapShot.docs[snapShot.docs.length - 1]);
+        // setLatestDoc(snapShot.docs[snapShot.docs.length - 1]);
       });
 
     return unsub;
   }, []);
 
   // debugger;
-  const loadMorePosts = async () => {
-    db.collection("posts")
-      .orderBy("timestamp", "desc")
-      .startAfter(latestDoc)
-      .limit(15)
-      .onSnapshot((snapShot) => {
-        setPosts([
-          ...posts,
-          ...snapShot.docs.map((doc) => ({ id: doc.id, post: doc.data() })),
-        ]);
-        setLatestDoc(snapShot.docs[snapShot.docs.length - 1]);
-        setHasMorePosts(snapShot.docs.length > 0);
-      });
-  };
+  // const loadMorePosts = async () => {
+  //   db.collection("posts")
+  //     .orderBy("timestamp", "desc")
+  //     .startAfter(latestDoc)
+  //     .limit(15)
+  //     .onSnapshot((snapShot) => {
+  //       setPosts([
+  //         ...posts,
+  //         ...snapShot.docs.map((doc) => ({ id: doc.id, post: doc.data() })),
+  //       ]);
+  //       setLatestDoc(snapShot.docs[snapShot.docs.length - 1]);
+  //       setHasMorePosts(snapShot.docs.length > 0);
+  //     });
+  // };
 
   const handleSnackBarClose = (event, reason) => {
     if (reason === "clickaway") {

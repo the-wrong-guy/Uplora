@@ -4,13 +4,23 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import { Route, Switch } from "react-router-dom";
 import { useSelector } from "react-redux";
-import Header from "./components/Header/header";
 import LoginPage from "./components/Login page/login";
 import MainPage from "./components/Main Page/main";
 import IndividualPostPage from "./components/Individual Post/individual_post_page";
 
 function App() {
   // document.addEventListener("contextmenu", handelRightClick);
+
+  useEffect(() => {
+    console.log(
+      "%cUplora",
+      "background-color: yellow; font-size: 4rem;color: #a974ff; font-family: Roboto,"
+    );
+    console.log(
+      "%cDont't try to copy code from this web app",
+      "font-size: 2rem;color: red; font-family: Roboto,"
+    );
+  }, []);
 
   const GlobalTheme = useSelector((state) => state.CONFIG.GlobalTheme);
   const darkTheme = createMuiTheme({
