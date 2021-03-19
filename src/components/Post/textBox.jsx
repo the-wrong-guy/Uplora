@@ -81,7 +81,7 @@ function ResizableTextarea({ postId }) {
             color: "inherit",
           }}
           className={styles.textBox}
-          onChange={handleChange}
+          onChange={(e) => setTimeout(handleChange(e), 100)}
         />
       </Paper>
 
