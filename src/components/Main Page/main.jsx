@@ -363,7 +363,7 @@ export default function Main() {
                     background: "transparent",
                   }}
                   className={styles.textBox}
-                  onChange={handleCaptionChange}
+                  onChange={(e) => setTimeout(handleCaptionChange(e), 100)}
                 />
               </Paper>
               <Button

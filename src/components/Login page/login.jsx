@@ -53,7 +53,7 @@ export default function Login() {
 
     checkingTheme();
 
-    return checkingTheme();
+    return checkingTheme;
   }, []);
 
   return (
