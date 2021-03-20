@@ -1,0 +1,14 @@
+.container {
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  place-items: center;
+}
+
+.main {
+  display: grid;
+  gap: 20px;
+  font-family: "Covered By Your Grace", cursive;
+  font-size: 1.5rem;
+  padding: 10px;
+}

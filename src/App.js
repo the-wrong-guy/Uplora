@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import LoginPage from "./components/Login page/login";
 import MainPage from "./components/Main Page/main";
 import IndividualPostPage from "./components/Individual Post/individual_post_page";
+import NotFoundPage from "./components/404 Page/notFound";
 
 function App() {
   // document.addEventListener("contextmenu", handelRightClick);
@@ -119,6 +120,9 @@ function App() {
         </Route>
         <Route path='/home'>
           <MainPage />
+        </Route>
+        <Route path=''>
+          <NotFoundPage />
         </Route>
         <Route path='/:id' children={<IndividualPostPage />} />
       </Switch>
