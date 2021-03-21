@@ -1,4 +1,8 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/a474e92f-4645-4fd5-9377-9413da40fa41/deploy-status)](https://app.netlify.com/sites/uplora/deploys)
+
 # Uplora
+
+Uplora is web platform for sharing images
 
 ## Link of the App 📸
 
@@ -6,7 +10,11 @@
 
 ## ScreenShots
 
-![Uplora](./ScreenShots/s1.jpg)
+<img src="./ScreenShots/s3.gif" height="450"/>
+
+<img src="./ScreenShots/s2.gif" height="450"/>
+
+<img src="./ScreenShots/s1.gif" height="450"/>
 
 ## Available Scripts
 

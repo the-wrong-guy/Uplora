@@ -84,7 +84,7 @@ function Header(props) {
             <img
               src={UploraLogo}
               style={{ height: "34px" }}
-              alt='uplora logo'
+              alt='uplora'
               onClick={() => history.push("/home")}
             />
             <span className={styles.header}>Uplora</span>
