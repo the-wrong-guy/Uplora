@@ -10,8 +10,6 @@ import IndividualPostPage from "./components/Individual Post/individual_post_pag
 import NotFoundPage from "./components/404 Page/notFound";
 
 function App() {
-  // document.addEventListener("contextmenu", handelRightClick);
-
   useEffect(() => {
     console.log(
       "%cUplora",

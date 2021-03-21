@@ -307,7 +307,7 @@ function Header(props) {
                       color: "black",
                     }}
                   >
-                    <b>Version:</b> beta@1.3.0
+                    <b>Version:</b> beta@{process.env.REACT_APP_VERSION}
                   </span>
                 </ListItem>
                 <ListItem className={styles.list_Item}>
