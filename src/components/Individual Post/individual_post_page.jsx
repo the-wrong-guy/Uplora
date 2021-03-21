@@ -28,12 +28,25 @@ export default function IndividualPost() {
   }, []);
 
   useEffect(() => {
-    const unsub = db
-      .collection("posts")
-      .doc(id)
-      .onSnapshot((doc) => {
-        setPost(doc.data());
-      });
+    const docRef = db.collection("posts").doc(id);
+
+    const unsub = () => {
+      try {
+        docRef.get().then((docSnapshot) => {
+          if (docSnapshot.exists) {
+            docRef.onSnapshot((doc) => {
+              setPost(doc.data());
+            });
+          } else {
+            history.push("/error");
+          }
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    unsub();
     return unsub;
   }, []);
 

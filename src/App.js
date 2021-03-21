@@ -121,7 +121,7 @@ function App() {
         <Route path='/home'>
           <MainPage />
         </Route>
-        <Route>
+        <Route path='/error'>
           <NotFoundPage />
         </Route>
         <Route path='/:id' children={<IndividualPostPage />} />
