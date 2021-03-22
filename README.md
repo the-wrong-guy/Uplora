@@ -17,13 +17,13 @@ And also it's a PWA, so you can install it and it will beahave like a native app
 
 [Uplora](https://uplora.netlify.app/ "Uplora - Share your message to the world through Images") 👈
 
-## ScreenShots
+## ScreenShots 📜
 
-<p><img align="center" src="./ScreenShots/s3.gif" height="450"/></p>
+<p align="center"><img align="center" src="./ScreenShots/s3.gif" height="450"/></p>
 
-<img align="center" src="./ScreenShots/s2.gif" height="450"/>
+<p align="center"><img align="center" src="./ScreenShots/s2.gif" height="450"/></p>
 
-<img align="center" src="./ScreenShots/s1.gif" height="450"/>
+<p align="center"><img align="center" src="./ScreenShots/s1.gif" height="450"/></p>
 
 ## Available Scripts
 
