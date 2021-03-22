@@ -1,20 +1,29 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/a474e92f-4645-4fd5-9377-9413da40fa41/deploy-status)](https://app.netlify.com/sites/uplora/deploys)
 
-# Uplora
+# Uplora 📷🖼
 
-Uplora is web platform for sharing images
+Uplora is web platform for sharing images , it suppoets all kind of images and resolutions
+And also it's a PWA, so you can install it and it will beahave like a native app 
 
-## Link of the App 📸
+## Tech Stacks ⭐
+
+- React
+- Firebase
+- Material UI
+- React Router
+- Framer Motion
+
+## Link of the App 🔥
 
 [Uplora](https://uplora.netlify.app/ "Uplora - Share your message to the world through Images") 👈
 
 ## ScreenShots
 
-<img src="./ScreenShots/s3.gif" height="450"/>
+<p><img align="center" src="./ScreenShots/s3.gif" height="450"/></p>
 
-<img src="./ScreenShots/s2.gif" height="450"/>
+<img align="center" src="./ScreenShots/s2.gif" height="450"/>
 
-<img src="./ScreenShots/s1.gif" height="450"/>
+<img align="center" src="./ScreenShots/s1.gif" height="450"/>
 
 ## Available Scripts
 
