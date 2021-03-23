@@ -487,10 +487,14 @@ function Post({
             }}
           >
             {displayName}
+            <Typography
+              variant='caption'
+              color='initial'
+              style={{ marginLeft: "5px" }}
+            >
+              {caption}
+            </Typography>
           </span>
-          <Typography variant='caption' color='initial'>
-            {caption}
-          </Typography>
         </div>
       )}
       <div
