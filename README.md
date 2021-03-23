@@ -2,14 +2,15 @@
 
 # Uplora 📷🖼
 
-Uplora is web platform for sharing images , it suppoets all kind of images and resolutions
-And also it's a PWA, so you can install it and it will beahave like a native app 
+Uplora is web platform for sharing images , it supports all kind of images and resolutions
+And also it's a PWA, so you can install it and it will beahave like a native app
 
 ## Tech Stacks ⭐
 
 - React
 - Firebase
 - Material UI
+- Redux
 - React Router
 - Framer Motion
 
@@ -24,6 +25,12 @@ And also it's a PWA, so you can install it and it will beahave like a native app
 <p align="center"><img align="center" src="./ScreenShots/s2.gif" height="450"/></p>
 
 <p align="center"><img align="center" src="./ScreenShots/s1.gif" height="450"/></p>
+
+## License 📃
+
+
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />This <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/InteractiveResource" rel="dct:type">work</span> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+
 
 ## Available Scripts
 
