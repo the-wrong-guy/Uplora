@@ -34,6 +34,7 @@ import GitHubIcon from "@material-ui/icons/GitHub";
 
 //logo
 import UploraLogo from "./uplora.webp";
+import BMClogo from "./bmc-button.png";
 function Header(props) {
   const history = useHistory();
   const dispatch = useDispatch();
@@ -271,9 +272,9 @@ function Header(props) {
                     className={cx(styles.list_cards, styles.bugReportCard)}
                   >
                     <Typography align='center' variant='body1' color='initial'>
-                      Follow the Dev
+                      Follow & Support the Dev
                     </Typography>
-                    <div>
+                    <div style={{ display: "flex", justifyContent: "center" }}>
                       <a
                         target='_blank'
                         rel='noopener noreferrer'
@@ -295,22 +296,17 @@ function Header(props) {
                         </IconButton>
                       </a>
                     </div>
+                    <div style={{ display: "flex", justifyContent: "center" }}>
+                      <a href='https://www.buymeacoffee.com/bhargab' target='_'>
+                        <img src={BMClogo} alt='buy me a coffee' />
+                      </a>
+                    </div>
                   </Card>
                 </ListItem>
-                <ListItem className={styles.list_Item}>
-                  <span
-                    style={{
-                      padding: "5px 10px",
-                      borderRadius: "1000px",
-                      background: "#313131",
-                      fontSize: ".7rem",
-                      color: "black",
-                    }}
-                  >
-                    <b>Version:</b> beta@{process.env.REACT_APP_VERSION}
-                  </span>
-                </ListItem>
-                <ListItem className={styles.list_Item}>
+                <ListItem
+                  className={styles.list_Item}
+                  style={{ flexDirection: "column", gap: "10px" }}
+                >
                   <Button
                     endIcon={<LogoutIcon />}
                     variant='contained'
@@ -320,6 +316,15 @@ function Header(props) {
                   >
                     Logout
                   </Button>
+                  <span
+                    style={{
+                      padding: "5px 10px",
+                      fontSize: ".7rem",
+                      color: "black",
+                    }}
+                  >
+                    <b>Version:</b> beta@{process.env.REACT_APP_VERSION}
+                  </span>
                 </ListItem>
               </List>
             )}
