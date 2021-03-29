@@ -1,7 +1,7 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/a474e92f-4645-4fd5-9377-9413da40fa41/deploy-status)](https://app.netlify.com/sites/uplora/deploys) <br/>
 <img src="https://img.shields.io/github/package-json/v/the-wrong-guy/Uplora" alt="version"/>
 <img src="https://img.shields.io/github/issues/the-wrong-guy/Uplora" alt="issues"/>
-<img src="https://img.shields.io/github/commit-activity/w/the-wrong-guy/Uplora" alt="commits per week"/>
+<img src="https://img.shields.io/github/commit-activity/m/the-wrong-guy/Uplora" alt="commits per week"/>
 
 # Uplora 📷🖼
 
