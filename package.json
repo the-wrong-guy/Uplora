@@ -19,7 +19,7 @@
     "firebase": "^7.17.1",
     "framer-motion": "^3.10.3",
     "moment": "^2.29.1",
-    "node-sass": "^4.14.1",
+    "node-sass": "^7.0.0",
     "react": "^16.14.0",
     "react-copy-to-clipboard": "^5.0.3",
     "react-dom": "^16.13.1",
